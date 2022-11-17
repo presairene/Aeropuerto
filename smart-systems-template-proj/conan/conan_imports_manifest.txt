@@ -1,0 +1,7 @@
+1665067943
+C:\Users\asism\OneDrive - Universidad Pontificia Comillas\1 Master\SMART SYSTEMS APPLIED TO INDUSTRY +OC\Lab 3\smart-systems-template-proj\bin\x64\Debug\libeay32.dll: 0e8d018b2a3afa60b6032f07092770b6
+C:\Users\asism\OneDrive - Universidad Pontificia Comillas\1 Master\SMART SYSTEMS APPLIED TO INDUSTRY +OC\Lab 3\smart-systems-template-proj\bin\x64\Debug\mysqlcppconn-7-vs14.dll: 5a019244cedb07cf9402f3751f737487
+C:\Users\asism\OneDrive - Universidad Pontificia Comillas\1 Master\SMART SYSTEMS APPLIED TO INDUSTRY +OC\Lab 3\smart-systems-template-proj\bin\x64\Debug\mysqlcppconn-7-vs14.pdb: 2cf71cf22d36779bfec85d715980b3c9
+C:\Users\asism\OneDrive - Universidad Pontificia Comillas\1 Master\SMART SYSTEMS APPLIED TO INDUSTRY +OC\Lab 3\smart-systems-template-proj\bin\x64\Debug\mysqlcppconn8-2-vs14.dll: f8eeb0746181acf3a19a8036faea741b
+C:\Users\asism\OneDrive - Universidad Pontificia Comillas\1 Master\SMART SYSTEMS APPLIED TO INDUSTRY +OC\Lab 3\smart-systems-template-proj\bin\x64\Debug\mysqlcppconn8-2-vs14.pdb: 896ea74cdcb1cef2642f115a3cd22dc3
+C:\Users\asism\OneDrive - Universidad Pontificia Comillas\1 Master\SMART SYSTEMS APPLIED TO INDUSTRY +OC\Lab 3\smart-systems-template-proj\bin\x64\Debug\ssleay32.dll: 6e88b948ca9d79813f0391fe59a6e96d
