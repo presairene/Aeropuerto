@@ -60,7 +60,6 @@ int main(void){
 			if ((helpers::CTimeUtils::seconds_from_epoch(execTime) - lastExecution) >= TIME_SCAN_CYCLE_S) {
 
 				//The content of this if should go in a execute function of the object which will contain the intelligence module
-				prueba1;
 				log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
 
 				// ---------------------------- GET DATA FROM DB  ---------------------------- 
