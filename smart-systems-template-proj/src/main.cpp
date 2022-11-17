@@ -61,6 +61,14 @@ int main(void){
 
 				//The content of this if should go in a execute function of the object which will contain the intelligence module
 				log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+				log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+				log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+				log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+				log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
 
 				// ---------------------------- GET DATA FROM DB  ---------------------------- 
 
