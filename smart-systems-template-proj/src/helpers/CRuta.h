@@ -1,3 +1,4 @@
+#pragma once
 #include "CLocalizacion.h"
 #include <string.h>
 #include <iostream>
@@ -5,7 +6,8 @@
 #include <vector>
 
 using namespace std;
-class CRuta{
+class CRuta
+{
 private:
 	int m_idRuta;
 	vector<CLocalizacion*> m_pv_localizacion;
@@ -22,6 +24,5 @@ public:
 	int getIdRuta();
 
 	//Operator<<
-	friend std::ostream& operator<<(std::ostream& o, const CRuta& c);
+	//friend std::ostream& operator<<(std::ostream& o, const CRuta& c);
 };
-

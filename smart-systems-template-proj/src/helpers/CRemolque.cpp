@@ -18,7 +18,7 @@ CRemolque::CRemolque() {
 
 }
 
-CRemolque::CRemolque(int id, string estado, list <CSensor*> sensores, CAvion* avion, CRuta* ruta, CLocalizacion* localizacion) {
+CRemolque::CRemolque(int id, string estado, list <CSensor*> sensores, CAvion* avion, CRuta* ruta, CLocalizacion* localizacion)
 {
 	m_idRemolque = id;
 	m_estado = estado;
@@ -36,7 +36,7 @@ CRemolque::CRemolque(int id, string estado, list <CSensor*> sensores, CAvion* av
 //}
 
 //Destructor
-CRemolque::~CRemolque() {
+CRemolque::~CRemolque(){
 	cout << "I have been deleted id_remolque = " << m_idRemolque << " and stage= " << m_estado << endl;
 }
 
@@ -56,25 +56,25 @@ CAvion* CRemolque::getAvion() {
 	return m_p_avion;
 
 }
-list<CRuta*> CRemolque::getRuta() {
-	return m_pl_ruta;
+CRuta* CRemolque::getRuta() {
+	return m_p_ruta;
 
 }
 CLocalizacion* CRemolque::getLocalizacion() const {
 	return m_p_localizacion;
 }
-//Operator<<
-ostream& operator<<(ostream& o, const CRemolque& c) {
-	o << "idRemolque: " << c.m_idRemolque
-		<< ", estado: " << c.m_estado
-		<< ", sensores: " << for(i=0,size(c.m_pl_sensores), i++) c.si
-		<< ", avion: " << c.m_p_avion
-		<< ", ruta: " << c.m_pl_ruta
-		<< ", localizacion: " << c.m_p_localizacion
-		<< ".";
-	auto it = m_pl_sensores.begin();
-	for(int i = 0; i < )
-
-
-	return o;
-}
+////Operator<<
+//ostream& operator<<(ostream& o, const CRemolque& c) {
+//	o << "idRemolque: " << c.m_idRemolque
+//		<< ", estado: " << c.m_estado
+//		<< ", sensores: " << for(i=0,size(c.m_pl_sensores), i++) c.si
+//		<< ", avion: " << c.m_p_avion
+//		<< ", ruta: " << c.m_pl_ruta
+//		<< ", localizacion: " << c.m_p_localizacion
+//		<< ".";
+//	auto it = m_pl_sensores.begin();
+//	for(int i = 0; i < )
+//
+//
+//	return o;
+//}

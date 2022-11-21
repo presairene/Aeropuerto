@@ -33,7 +33,7 @@ public:
 	string getEstado() const;
 	list<CSensor*> getSensores();
 	CAvion* getAvion();
-	list<CRuta*>getRuta();
+	CRuta* getRuta();
 	CLocalizacion* getLocalizacion() const;
 
 	//Operator<<
