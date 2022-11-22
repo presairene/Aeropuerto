@@ -142,3 +142,100 @@ int CDatabaseLab4::insertPrediccion(const CSensor& s, const CPrediccion& p) {
 	return result;
 
 }
+int CDatabaseLab4::insertSensorBateria(const CSensor& s, const CRemolque& r) {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("INSERT INTO SENSOR_BATERIA (ID_SENSOR, ID_REMOLQUE)  VALUES (");
+			std::ostringstream os;
+
+			os << s.getIdSensor() << "," << r.getIdRemolque() << " )";
+			query += os.str();
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+int CDatabaseLab4::insertSensorLocalizacion(const CSensor& s, const CLocalizacion& l) {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("INSERT INTO SENSOR_LOCALIZACION (ID_SENSOR, ID_LOC)  VALUES (");
+			std::ostringstream os;
+
+			os << s.getIdSensor() << "," << l.getIdLocalizacion() << " )";
+			query += os.str();
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+int CDatabaseLab4::insertTipo(const CTipo& t) {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("INSERT INTO TIPO (ID_TIPO, DESC_TIPO)  VALUES (");
+			std::ostringstream os;
+
+			os << t.getIdTipo() << ", '" << t.getTipo() << "' )";
+			query += os.str();
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+int CDatabaseLab4::insertValor(const CValue& v, const CSensor& s) {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("INSERT INTO VALOR (FECHA, VALOR, ID_SENSOR)  VALUES (");
+			std::ostringstream os;
+
+			os << v.getFecha() << ", " << v.getValor() << "," << s.getIdSensor() << " )";
+			query += os.str();
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+
