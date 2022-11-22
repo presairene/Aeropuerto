@@ -41,7 +41,7 @@ CRemolque::~CRemolque(){
 }
 
 //Functions for member access
-int CRemolque::getIdRemolque() {
+int CRemolque::getIdRemolque() const {
 	return m_idRemolque;
 }
 

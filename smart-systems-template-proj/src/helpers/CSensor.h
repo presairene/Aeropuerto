@@ -28,8 +28,9 @@ public:
 	~CSensor();
 
 	//Access functions
-	int getIdTipo() const;
-
+	int getIdSensor() const;
+	CTipo* getTipo() const;
 	//Operator<<
 	friend std::ostream& operator<<(std::ostream& o, const CSensor& c);
 };
+

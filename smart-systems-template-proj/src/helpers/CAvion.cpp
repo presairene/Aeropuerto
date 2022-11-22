@@ -36,17 +36,17 @@ CAvion::~CAvion() {
 }
 
 //Functions for member access
-int CAvion::getIdAvion() {
+int CAvion::getIdAvion() const {
 	return m_idAvion;
 }
 
-string CAvion::getEstado() {
+string CAvion::getEstado() const{
 	return m_estado;
 }
-CLocalizacion* CAvion::getLocalizacion() {
+CLocalizacion* CAvion::getLocalizacion() const{
 	return m_p_localizacion;
 }
-int CAvion::getIdRemolque() {
+int CAvion::getIdRemolque() const{
 	return m_idRemolque;
 }
 

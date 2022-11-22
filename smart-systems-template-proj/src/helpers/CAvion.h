@@ -19,10 +19,10 @@ public:
 	//Destructor
 	~CAvion();
 	//Access functions
-	int getIdAvion();
-	string getEstado();
-	CLocalizacion* getLocalizacion();
-	int getIdRemolque();
+	int getIdAvion() const;
+	string getEstado() const;
+	CLocalizacion* getLocalizacion() const;
+	int getIdRemolque() const;
 
 	//Operator<<
 	friend std::ostream& operator<<(std::ostream& o, const CAvion& c);

@@ -29,7 +29,7 @@ public:
 	//Destructor
 	~CRemolque();
 	//Access functions
-	int getIdRemolque();
+	int getIdRemolque() const;
 	string getEstado() const;
 	list<CSensor*> getSensores();
 	CAvion* getAvion();

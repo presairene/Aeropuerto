@@ -53,6 +53,9 @@ std::ostream& operator<<(std::ostream& o, const CSensor& c) {
 }
 
 //Access functions
-int CSensor::getIdTipo() const {
+int CSensor::getIdSensor() const {
 	return m_idSensor;
+}
+CTipo* CSensor::getTipo() const {
+	return  m_p_tipo;
 }
