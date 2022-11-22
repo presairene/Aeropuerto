@@ -125,8 +125,8 @@ int CDatabaseLab4::insertPrediccion(const CSensor& s, const CPrediccion& p) {
 		if (m_p_con != NULL) {
 			std::string query("INSERT INTO PREDICCION (FECHA_PRED, VALOR_PRED, ID_SENSOR)  VALUES (");
 			std::ostringstream os;
-
-			os << p.getFecha() << "," << p.getValor() << " , " << s.getIdSensor()<<" )";
+			
+			os << " FROM_UNIXTIME(" << p.getFecha() << ", '%Y-%m-%d %H:%i:%s' ), " << "," << p.getValor() << " , " << s.getIdSensor()<<" )";
 			query += os.str();
 			result = EjecutaQuery(query);
 
@@ -198,7 +198,7 @@ int CDatabaseLab4::insertTipo(const CTipo& t) {
 		if (m_p_con != NULL) {
 			std::string query("INSERT INTO TIPO (ID_TIPO, DESC_TIPO)  VALUES (");
 			std::ostringstream os;
-
+			
 			os << t.getIdTipo() << ", '" << t.getTipo() << "' )";
 			query += os.str();
 			result = EjecutaQuery(query);
@@ -208,7 +208,8 @@ int CDatabaseLab4::insertTipo(const CTipo& t) {
 		}
 	}
 	catch (sql::SQLException& e) {
-		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		std::ostringstream os; 
+		os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
 		result = false;
 	}
 
@@ -223,7 +224,7 @@ int CDatabaseLab4::insertValor(const CValue& v, const CSensor& s) {
 			std::string query("INSERT INTO VALOR (FECHA, VALOR, ID_SENSOR)  VALUES (");
 			std::ostringstream os;
 
-			os << v.getFecha() << ", " << v.getValor() << "," << s.getIdSensor() << " )";
+			os << " FROM_UNIXTIME(" << v.getFecha() << ", '%Y-%m-%d %H:%i:%s' ), " << ", " << v.getValor() << "," << s.getIdSensor() << " )";
 			query += os.str();
 			result = EjecutaQuery(query);
 

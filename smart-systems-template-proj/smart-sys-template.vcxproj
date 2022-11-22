@@ -187,6 +187,7 @@
     <ClCompile Include="src\helpers\CRemolque.cpp" />
     <ClCompile Include="src\helpers\CRuta.cpp" />
     <ClCompile Include="src\helpers\CSensor.cpp" />
+    <ClCompile Include="src\helpers\CTime.cpp" />
     <ClCompile Include="src\helpers\CTimeUtils.cpp" />
     <ClCompile Include="src\helpers\CTipo.cpp" />
     <ClCompile Include="src\helpers\CValue.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="src\helpers\CRuta.h" />
     <ClInclude Include="src\helpers\CSensor.h" />
     <ClInclude Include="src\helpers\CSingleton.hpp" />
+    <ClInclude Include="src\helpers\CTime.h" />
     <ClInclude Include="src\helpers\CTimeUtils.hpp" />
     <ClInclude Include="src\helpers\CTipo.h" />
     <ClInclude Include="src\helpers\CValue.h" />

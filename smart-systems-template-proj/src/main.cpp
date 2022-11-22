@@ -14,6 +14,7 @@
 #include <CTipo.h>
 #include <CValue.h>
 #include <CPrediccion.h>
+#include <CTime.h>
 
 //DDBB
 #include "CDatabase.hpp"
@@ -111,7 +112,13 @@ int main(void){
 
 				//Do insert of data 
 				//EXAMPLE:
-				
+				CTipo T1 = CTipo(2, "bateria");
+				resultInsert = resultInsert && dbObject.insertTipo(T1);
+
+				CTime fecha1 = CTime();
+				CValue V1 = CValue( 23.5,fecha1.getDate());
+				CSensor S1 = CSensor();
+				resultInsert = resultInsert && dbObject.insertValor(V1, S1);
 				
 				
 				

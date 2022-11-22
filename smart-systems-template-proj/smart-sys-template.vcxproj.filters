@@ -78,6 +78,9 @@
     <ClCompile Include="src\helpers\CValue.cpp">
       <Filter>Source Files\helpers</Filter>
     </ClCompile>
+    <ClCompile Include="src\helpers\CTime.cpp">
+      <Filter>Source Files\helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dm-database\CDatabase.hpp">
@@ -131,8 +134,11 @@
     <ClInclude Include="src\helpers\CTipo.h">
       <Filter>Header Files\helpers</Filter>
     </ClInclude>
-    <ClInclude Include="src\helpers\CValue.h">
+    <ClInclude Include="src\helpers\CTime.h">
       <Filter>Header Files\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\helpers\CValue.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
