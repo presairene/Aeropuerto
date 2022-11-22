@@ -239,3 +239,105 @@ int CDatabaseLab4::insertValor(const CValue& v, const CSensor& s) {
 	return result;
 }
 
+
+//--------------- OTHER FUNCTIONS ----------------------------
+int CDatabaseLab4::EnviarRemolquesCarga(){
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("SELECT S.ID_SENSOR AS SENSOR, P.VALOR AS PREDICION_BATERÍA, V.VALOR AS VALOR_BATERIA, S_L.ID_LOC AS LOCALIZACION");
+			std::ostringstream os;
+			os << "FROM PREDICCION P, SENSOR_BATERIA SB, SENSOR S, VALOR V, SENSOR_LOCALIZACION S_L";
+			os << "WHERE P.ID_SENSOR = SB.ID_SENSOR";
+			os << "AND SB.ID_SENSOR = S.ID_SENSOR";
+			os << "AND S.ID_SENSOR = V.ID_SENSOR";
+			os << "AND S.ID_SENSOR = S_L.ID_SENSOR";
+			os << "AND P.FECHA = ''";
+			os << "AND(P.VALOR < 0.10 OR V.VALOR < 0.10)";
+			
+
+		
+			query += os.str();
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+int CDatabaseLab4::LeerSensorLocFINGER() {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("SELECT L.ID_LOC AS LOCALIZACION, L.ESTADO AS ESTADO");
+			std::ostringstream os;
+			os << "FROM LOCALIZACION L";
+			os << "WHERE L.TIPO LIKE 'FINGER'";
+
+			query += os.str();
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+int CDatabaseLab4::LeerSensorLocPISTA() {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("SELECT L.ID_LOC AS LOCALIZACION, L.ESTADO AS ESTADO");
+			std::ostringstream os;
+			os << "FROM LOCALIZACION L";
+			os << "WHERE L.TIPO LIKE 'PISTA'";
+
+			query += os.str();
+			result = EjecutaQuery(query);
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+int CDatabaseLab4::CambiarEstadoAvion() {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE AVION SET ESTADO = 'escribir aquí el estado'");
+			result = EjecutaQuery(query);
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
