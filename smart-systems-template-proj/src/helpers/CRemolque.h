@@ -31,9 +31,9 @@ public:
 	//Access functions
 	int getIdRemolque() const;
 	string getEstado() const;
-	list<CSensor*> getSensores();
-	CAvion* getAvion();
-	CRuta* getRuta();
+	list<CSensor*> getSensores() const;
+	CAvion* getAvion() const;
+	CRuta* getRuta() const;
 	CLocalizacion* getLocalizacion() const;
 
 	//Operator<<

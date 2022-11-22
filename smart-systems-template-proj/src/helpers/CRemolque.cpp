@@ -49,14 +49,14 @@ string CRemolque::getEstado() const{
 	return m_estado;
 }
 
-list<CSensor*> CRemolque::getSensores() {
+list<CSensor*> CRemolque::getSensores() const{
 	return m_pl_sensores;
 }
-CAvion* CRemolque::getAvion() {
+CAvion* CRemolque::getAvion() const{
 	return m_p_avion;
 
 }
-CRuta* CRemolque::getRuta() {
+CRuta* CRemolque::getRuta() const {
 	return m_p_ruta;
 
 }

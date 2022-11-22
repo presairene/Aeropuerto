@@ -76,7 +76,7 @@ int CDatabaseLab4::insertAvion(const CAvion& a) {
 			std::string query("INSERT INTO AVION (ID_AVION, ESTADO,ID_REMOLQUE, ID_LOC)  VALUES (");
 			std::ostringstream os;
 
-			os << a.getIdAvion() << ", '" << a.getEstado() << "' ," << a.getIdRemolque() << "," << a.getLocalizacion()->getIdLocalizacion() << ")";
+			os << a.getIdAvion() << ", '" << a.getEstado() << "' ," << NULL << "," << a.getLocalizacion()->getIdLocalizacion() << ")";
 			query += os.str();
 			result = EjecutaQuery(query);
 
@@ -98,7 +98,7 @@ int CDatabaseLab4::insertSensor(const CSensor& s) {
 	try {
 		//This condition checks that there is a connection active
 		if (m_p_con != NULL) {
-			std::string query("INSERT INTO SENSOR (ID_SENSOR, TIPO)  VALUES (");
+			std::string query("INSERT INTO SENSOR (ID_SENSOR, ID_TIPO)  VALUES (");
 			std::ostringstream os;
 
 			os << s.getIdSensor() << ", '" << s.getTipo()  <<  "' )";
@@ -330,6 +330,61 @@ int CDatabaseLab4::CambiarEstadoAvion() {
 		if (m_p_con != NULL) {
 			std::string query("UPDATE AVION SET ESTADO = 'escribir aquí el estado'");
 			result = EjecutaQuery(query);
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+
+int CDatabaseLab4::insertRuta(const CRemolque& Re) {
+
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("INSERT INTO RUTA (ID_RUTA, ID_REMOLQUE)  VALUES (");
+			std::ostringstream os;
+
+			os << Re.getRuta()->getIdRuta() << "," << Re.getIdRemolque() << ")";
+			query += os.str();
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+int CDatabaseLab4::insertLocalizacionRuta(const CRuta& Ru) {
+	int l;
+	int i;
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			l = Ru.getLocalizacion().size();
+			for (i = 0; i <= l; i++) {
+				std::string query("INSERT INTO LOCALIZACION_RUTA (ID_RUTA, ORDEN, ID_LOC)  VALUES (");
+				std::ostringstream os;
+
+				os << Ru.getIdRuta() << "," << i << "," << Ru.getLocalizacion()[i]->getIdLocalizacion() << ")";
+				query += os.str();
+				result = EjecutaQuery(query);
+			}
+
 		}
 		else {
 		}

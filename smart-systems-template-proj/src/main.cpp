@@ -53,6 +53,12 @@ int main(void){
 
 		uint64_t lastExecution = 0;
 
+		//---------------------------------VARIABLES DE PRUEBA----------------------------
+		CLocalizacion LocPr1 = CLocalizacion(6, "Lib", "Const", 985, 589);
+		
+		
+		
+
 		//  ---------------------------- START SCAN CYCLE ---------------------------- 
 		while (1) {
 			boost::posix_time::ptime execTime = boost::posix_time::second_clock::local_time();
@@ -107,9 +113,9 @@ int main(void){
 				//EXAMPLE:
 				
 				
-				CLocalizacion Loc = CLocalizacion(3, "Lib", "Const", 985, 589);
-				std::cout << "Estado=" << Loc.getEstado() << std::endl;
-				resultInsert = resultInsert && dbObject.insertLocalizacion(Loc);
+				
+				
+				resultInsert = resultInsert && dbObject.insertLocalizacion(LocPr1);
 
 				if (resultInsert) {
 					log.println(boost::log::trivial::trace, "Data insert OK");

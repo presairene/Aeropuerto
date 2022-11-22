@@ -26,8 +26,12 @@ CRuta::~CRuta() {
 	cout << "CRuta deleted with idRuta = " << m_idRuta << endl;
 }
 //Access functions
-int CRuta::getIdRuta() {
+int CRuta::getIdRuta() const {
 	return m_idRuta;
+}
+vector <CLocalizacion*> CRuta::getLocalizacion() const {
+
+	return m_pv_localizacion;
 }
 //Operator<<
 //ostream& operator<<(ostream& o, const CRuta& c) {

@@ -21,7 +21,8 @@ public:
 	//Destructor
 	~CRuta();
 	//Access functions
-	int getIdRuta();
+	int getIdRuta() const;
+	vector <CLocalizacion*> getLocalizacion() const;
 
 	//Operator<<
 	//friend std::ostream& operator<<(std::ostream& o, const CRuta& c);
