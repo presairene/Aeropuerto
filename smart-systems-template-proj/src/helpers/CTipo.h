@@ -7,7 +7,7 @@ class CTipo
 {
 private:
 	int idTipo;
-	string tipo;
+	string tipo;//solo puede ser: batería, localizacion.
 
 public:
 	//Defaut Constructor
