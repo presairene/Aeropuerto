@@ -126,7 +126,7 @@ int CDatabaseLab4::insertPrediccion(const CSensor& s, const CPrediccion& p) {
 			std::string query("INSERT INTO PREDICCION (FECHA_PRED, VALOR_PRED, ID_SENSOR)  VALUES (");
 			std::ostringstream os;
 			
-			os << " FROM_UNIXTIME(" << p.getFecha() << ", '%Y-%m-%d %H:%i:%s' ), " << "," << p.getValor() << " , " << s.getIdSensor()<<" )";
+			os << "FROM_UNIXTIME(" << p.getFecha() << " ), "  << p.getValor() << " , " << s.getIdSensor() << " )";
 			query += os.str();
 			result = EjecutaQuery(query);
 
