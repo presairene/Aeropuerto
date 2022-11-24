@@ -58,16 +58,16 @@ int main(void){
 		//Listas
 		list<CValue*> listValue;
 		list<CValue*>::iterator ilistValue;
-		CTime fec1 = CTime(2022,11,24,15,43,00);
+		CTime fec1 = CTime(2022,11,25,15,43,00);
 
-		CTipo Tip1 = CTipo(2, "bateria");
+		CTipo Tip1 = CTipo(1, "bateria");
 
 		CValue Val1 = CValue(23.5, fec1.getDate());
 		listValue.push_back(&Val1);
 		ilistValue = listValue.begin();
 		CPrediccion Pre1 = CPrediccion(7, fec1.getDate());
 		CLocalizacion Loc1 = CLocalizacion(4, "Lib", "Const", 985, 589);
-		CSensor Sen1 = CSensor(1, &Pre1, &Tip1, listValue, &Loc1);
+		CSensor Sen1 = CSensor(2, &Pre1, &Tip1, listValue, &Loc1);
 
 		
 
@@ -125,6 +125,8 @@ int main(void){
 
 								//Do insert of data 
 				//EXAMPLE:
+
+
 				
 			//--------------------------------------Insert localizacion --------------------------------------------
 				bool resultInsert = true;
@@ -138,6 +140,33 @@ int main(void){
 					log.println(boost::log::trivial::trace, "Data insert ERROR");
 					dbObject.DeshacerTransaccion();
 				}
+
+				//---------------------------------------Insert tipo ----------------------------------------------
+				resultInsert = true;
+				resultInsert = resultInsert && dbObject.insertTipo(Tip1);
+				if (resultInsert) {
+					log.println(boost::log::trivial::trace, "Data insert OK Tipo");
+					dbObject.ConfirmarTransaccion();
+				}
+				else {
+					log.println(boost::log::trivial::trace, "Data insert ERROR Tipo");
+					dbObject.DeshacerTransaccion();
+				}
+
+				//--------------------------------------Insert sensores --------------------------------------------
+				
+				resultInsert = true;
+				resultInsert = resultInsert && dbObject.insertSensor(Sen1);
+
+				if (resultInsert) {
+					log.println(boost::log::trivial::trace, "Data insert OK Valores");
+					dbObject.ConfirmarTransaccion();
+				}
+				else {
+					log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+					dbObject.DeshacerTransaccion();
+				}
+				
 				//--------------------------------------Insert valores --------------------------------------------
 
 				resultInsert = true;
@@ -153,17 +182,6 @@ int main(void){
 				}
 
 				
-				//---------------------------------------Insert tipo ----------------------------------------------
-				resultInsert = true;
-				resultInsert = resultInsert && dbObject.insertTipo(Tip1);
-				if (resultInsert) {
-					log.println(boost::log::trivial::trace, "Data insert OK Tipo");
-					dbObject.ConfirmarTransaccion();
-				}
-				else {
-					log.println(boost::log::trivial::trace, "Data insert ERROR Tipo");
-					dbObject.DeshacerTransaccion();
-				}
 
 				dbObject.Desconectar();
 

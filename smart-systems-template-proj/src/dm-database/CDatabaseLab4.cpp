@@ -101,7 +101,7 @@ int CDatabaseLab4::insertSensor(const CSensor& s) {
 			std::string query("INSERT INTO SENSOR (ID_SENSOR, ID_TIPO)  VALUES (");
 			std::ostringstream os;
 
-			os << s.getIdSensor() << ", '" << s.getTipo()  <<  "' )";
+			os << s.getIdSensor() << ", " << s.getTipo()->getIdTipo() <<  " )";
 			query += os.str();
 			result = EjecutaQuery(query);
 
