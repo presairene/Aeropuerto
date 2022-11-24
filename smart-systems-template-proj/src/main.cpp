@@ -35,6 +35,7 @@ using namespace std;
 int main(void){
 
 	CDatabaseLab4 dbObject;
+	int opcion;
 	
 	try {
 
@@ -138,6 +139,17 @@ int main(void){
 					log.println(boost::log::trivial::trace, "Data insert ERROR");
 					dbObject.DeshacerTransaccion();
 				}
+				// -------------------------------------- - Insert tipo----------------------------------------------
+				resultInsert = true;
+				resultInsert = resultInsert && dbObject.insertTipo(Tip1);
+				if (resultInsert) {
+					log.println(boost::log::trivial::trace, "Data insert OK Tipo");
+					dbObject.ConfirmarTransaccion();
+				}
+				else {
+					log.println(boost::log::trivial::trace, "Data insert ERROR Tipo");
+					dbObject.DeshacerTransaccion();
+				}
 				//--------------------------------------Insert valores --------------------------------------------
 
 				resultInsert = true;
@@ -153,23 +165,39 @@ int main(void){
 				}
 
 				
-				//---------------------------------------Insert tipo ----------------------------------------------
-				resultInsert = true;
-				resultInsert = resultInsert && dbObject.insertTipo(Tip1);
-				if (resultInsert) {
-					log.println(boost::log::trivial::trace, "Data insert OK Tipo");
-					dbObject.ConfirmarTransaccion();
-				}
-				else {
-					log.println(boost::log::trivial::trace, "Data insert ERROR Tipo");
-					dbObject.DeshacerTransaccion();
-				}
+				
 
 				dbObject.Desconectar();
 
 				lastExecution = helpers::CTimeUtils::seconds_from_epoch(execTime);
 
 
+			}
+			
+
+
+
+
+		//_____________________________________MENU__________________________________________
+
+			printf("BIENVENIDO AL SISTEMA INTELIGENTE DE AEROPUERTOS\n\n");
+			printf("Opción 1:\n");
+			printf("Opción 2:\n");
+			printf("Opción 3:\n");
+			printf("Seleccione la opcion que desea:\n");
+			scanf("%d", &opcion);
+
+			switch (opcion) {
+			case 1:
+				opcion = 0; //Cambiar esto por lo que se quiera hacer en esta opcion
+				break;
+
+			case 2:
+				opcion = 0;  //Cambiar esto por lo que se quiera hacer en esta opcion
+				break;
+
+			default:
+				opcion = 0;  //Cambiar esto por lo que se quiera hacer en esta opcion
 			}
 		}
 
