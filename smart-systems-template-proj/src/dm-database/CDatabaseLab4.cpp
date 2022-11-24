@@ -224,7 +224,7 @@ int CDatabaseLab4::insertValor(const CValue& v, const CSensor& s) {
 			std::string query("INSERT INTO VALOR (FECHA, VALOR, ID_SENSOR)  VALUES (");
 			std::ostringstream os;
 
-			os << " FROM_UNIXTIME(" << v.getFecha() << ", '%Y-%m-%d %H:%i:%s' ), " << ", " << v.getValor() << "," << s.getIdSensor() << " )";
+			os << "FROM_UNIXTIME(" << v.getFecha() << "), " << v.getValor() << " ," << s.getIdSensor() << " )";
 			query += os.str();
 			result = EjecutaQuery(query);
 

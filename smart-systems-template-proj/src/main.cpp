@@ -55,7 +55,23 @@ int main(void){
 		uint64_t lastExecution = 0;
 
 		//---------------------------------VARIABLES DE PRUEBA----------------------------
-		CLocalizacion LocPr1 = CLocalizacion(6, "Lib", "Const", 985, 589);
+		//Listas
+		list<CValue*> listValue;
+		list<CValue*>::iterator ilistValue;
+		CTime fec1 = CTime(2022,11,24,15,43,00);
+
+		CTipo Tip1 = CTipo(2, "bateria");
+
+		CValue Val1 = CValue(23.5, fec1.getDate());
+		listValue.push_back(&Val1);
+		ilistValue = listValue.begin();
+		CPrediccion Pre1 = CPrediccion(7, fec1.getDate());
+		CLocalizacion Loc1 = CLocalizacion(4, "Lib", "Const", 985, 589);
+		CSensor Sen1 = CSensor(1, &Pre1, &Tip1, listValue, &Loc1);
+
+		
+
+		
 		
 		
 		
@@ -107,32 +123,12 @@ int main(void){
 				//Insert stuff in DB
 				dbObject.ComienzaTransaccion();
 
-				//Do inserts of data
-				bool resultInsert = true;
-
-				//Do insert of data 
+								//Do insert of data 
 				//EXAMPLE:
-				//Listas
-				list<CValue*> listValue;
-				list<CValue*>::iterator ilistValue;
-
-				CTime fec1 = CTime();
-				CLocalizacion Loc1 = CLocalizacion(3, "Lib", "Const", 985, 589);
-
-				CTipo Tip1 = CTipo(2, "bateria");
-				resultInsert = resultInsert && dbObject.insertTipo(Tip1);
-
-				CValue Val1 = CValue(23.5, fec1.getDate());
-				listValue.push_back(&Val1);
-				ilistValue = listValue.begin();
-
-				CPrediccion Pre1 = CPrediccion(7, fec1.getDate());
-				CSensor Sen1 = CSensor(1,&Pre1, &Tip1, listValue, &Loc1);
-				resultInsert = resultInsert && dbObject.insertValor(Val1, Sen1);
 				
-				
-				
-				resultInsert = resultInsert && dbObject.insertLocalizacion(LocPr1);
+			//--------------------------------------Insert localizacion --------------------------------------------
+				bool resultInsert = true;
+				resultInsert = resultInsert && dbObject.insertLocalizacion(Loc1);
 
 				if (resultInsert) {
 					log.println(boost::log::trivial::trace, "Data insert OK");
@@ -142,10 +138,38 @@ int main(void){
 					log.println(boost::log::trivial::trace, "Data insert ERROR");
 					dbObject.DeshacerTransaccion();
 				}
+				//--------------------------------------Insert valores --------------------------------------------
+
+				resultInsert = true;
+				resultInsert = resultInsert && dbObject.insertValor(Val1, Sen1);
+
+				if (resultInsert) {
+					log.println(boost::log::trivial::trace, "Data insert OK Valores");
+					dbObject.ConfirmarTransaccion();
+				}
+				else {
+					log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+					dbObject.DeshacerTransaccion();
+				}
+
+				
+				//---------------------------------------Insert tipo ----------------------------------------------
+				resultInsert = true;
+				resultInsert = resultInsert && dbObject.insertTipo(Tip1);
+				if (resultInsert) {
+					log.println(boost::log::trivial::trace, "Data insert OK Tipo");
+					dbObject.ConfirmarTransaccion();
+				}
+				else {
+					log.println(boost::log::trivial::trace, "Data insert ERROR Tipo");
+					dbObject.DeshacerTransaccion();
+				}
 
 				dbObject.Desconectar();
 
 				lastExecution = helpers::CTimeUtils::seconds_from_epoch(execTime);
+
+
 			}
 		}
 
