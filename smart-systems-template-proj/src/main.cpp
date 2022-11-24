@@ -69,6 +69,15 @@ int main(void){
 		CPrediccion Pre1 = CPrediccion(7, fec1.getDate());
 		CLocalizacion Loc1 = CLocalizacion(4, "Lib", "Const", 985, 589);
 		CSensor Sen1 = CSensor(1, &Pre1, &Tip1, listValue, &Loc1);
+		list<CSensor*> listSensor;
+		list<CSensor*>::iterator ilistSensor;
+		CAvion Avi1 = CAvion(390, "espera", &Loc1);
+		
+		vector<CLocalizacion*> VectorLoc1;
+		VectorLoc1.push_back(&Loc1);
+		CRuta Rut1 = CRuta(21, VectorLoc1);
+		CRemolque Rem1 = CRemolque(200, "libre", listSensor, &Avi1, &Rut1, &Loc1);
+		
 
 		
 
@@ -150,6 +159,20 @@ int main(void){
 					log.println(boost::log::trivial::trace, "Data insert ERROR Tipo");
 					dbObject.DeshacerTransaccion();
 				}
+
+				//--------------------------------------Insert sensores --------------------------------------------
+
+				resultInsert = true;
+				resultInsert = resultInsert && dbObject.insertSensor(Sen1);
+
+				if (resultInsert) {
+					log.println(boost::log::trivial::trace, "Data insert OK Valores");
+					dbObject.ConfirmarTransaccion();
+				}
+				else {
+					log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+					dbObject.DeshacerTransaccion();
+				}
 				//--------------------------------------Insert valores --------------------------------------------
 
 				resultInsert = true;
@@ -165,15 +188,29 @@ int main(void){
 				}
 
 				
-				
+				//--------------------------------------Insert Remolque --------------------------------------------
+				resultInsert = true;
+				resultInsert = resultInsert && dbObject.insertSensorLocalizacion(Sen1, Loc1);
+
+				if (resultInsert) {
+					log.println(boost::log::trivial::trace, "Data insert OK Sensor-Localizacion");
+					dbObject.ConfirmarTransaccion();
+				}
+				else {
+					log.println(boost::log::trivial::trace, "Data insert ERROR Sensor-Localizacion");
+					dbObject.DeshacerTransaccion();
+				}
 
 				dbObject.Desconectar();
 
 				lastExecution = helpers::CTimeUtils::seconds_from_epoch(execTime);
 
-
 			}
 			
+		
+
+
+
 
 
 
