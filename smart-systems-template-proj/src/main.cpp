@@ -106,13 +106,23 @@ int main(void){
 
 				//Do insert of data 
 				//EXAMPLE:
-				CTipo T1 = CTipo(2, "bateria");
-				resultInsert = resultInsert && dbObject.insertTipo(T1);
+				//Listas
+				list<CValue*> listValue;
+				list<CValue*>::iterator ilistValue;
 
-				CTime fecha1 = CTime();
-				CValue V1 = CValue( 23.5,fecha1.getDate());
-				CSensor S1 = CSensor();
-				resultInsert = resultInsert && dbObject.insertValor(V1, S1);
+				CTime fec1 = CTime();
+				CLocalizacion Loc1 = CLocalizacion(3, "Lib", "Const", 985, 589);
+
+				CTipo Tip1 = CTipo(2, "bateria");
+				resultInsert = resultInsert && dbObject.insertTipo(Tip1);
+
+				CValue Val1 = CValue(23.5, fec1.getDate());
+				listValue.push_back(&Val1);
+				ilistValue = listValue.begin();
+
+				CPrediccion Pre1 = CPrediccion(7, fec1.getDate());
+				CSensor Sen1 = CSensor(1,&Pre1, &Tip1, listValue, &Loc1);
+				resultInsert = resultInsert && dbObject.insertValor(Val1, Sen1);
 				
 				CLocalizacion Loc = CLocalizacion(3, "Lib", "Const", 985, 589);
 				std::cout << "Estado=" << Loc.getEstado() << std::endl;
