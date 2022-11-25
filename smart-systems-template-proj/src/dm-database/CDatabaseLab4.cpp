@@ -48,7 +48,7 @@ int CDatabaseLab4::insertRemolque(const CRemolque& r) {
 	try {
 		//This condition checks that there is a connection active
 		if (m_p_con != NULL) {
-			std::string query("INSERT INTO REMOLQUE (ID_REMOLQUE, ESTADO, LOCALIZACION_ID_LOC)  VALUES (");
+			std::string query("INSERT INTO REMOLQUE (ID_REMOLQUE, ESTADO, ID_LOC)  VALUES (");
 			std::ostringstream os;
 
 			os << r.getIdRemolque() << ", '" << r.getEstado() << "' ," << r.getLocalizacion()->getIdLocalizacion() <<")";
@@ -73,10 +73,10 @@ int CDatabaseLab4::insertAvion(const CAvion& a) {
 	try {
 		//This condition checks that there is a connection active
 		if (m_p_con != NULL) {
-			std::string query("INSERT INTO AVION (ID_AVION, ESTADO,ID_REMOLQUE, ID_LOC)  VALUES (");
+			std::string query("INSERT INTO AVION (ID_AVION, ESTADO, ID_REMOLQUE, ID_LOC)  VALUES (");
 			std::ostringstream os;
 
-			os << a.getIdAvion() << ", '" << a.getEstado() << "' ," << NULL << "," << a.getLocalizacion()->getIdLocalizacion() << ")";
+			os << a.getIdAvion() << ", '" << a.getEstado() << "' , NULL," << a.getLocalizacion()->getIdLocalizacion() << ")";
 			query += os.str();
 			result = EjecutaQuery(query);
 
@@ -241,7 +241,7 @@ int CDatabaseLab4::insertValor(const CValue& v, const CSensor& s) {
 }
 
 
-//--------------- OTHER FUNCTIONS ----------------------------
+//------------------------------------------------------------------------------ OTHER FUNCTIONS ----------------------------
 int CDatabaseLab4::EnviarRemolquesCarga(){
 	bool result = false;
 
@@ -343,7 +343,7 @@ int CDatabaseLab4::CambiarEstadoAvion() {
 	return result;
 }
 
-int CDatabaseLab4::insertRuta(const CRemolque& Re) {
+int CDatabaseLab4::insertRuta(const CRuta& Ru) {
 
 	bool result = false;
 
@@ -353,7 +353,7 @@ int CDatabaseLab4::insertRuta(const CRemolque& Re) {
 			std::string query("INSERT INTO RUTA (ID_RUTA, ID_REMOLQUE)  VALUES (");
 			std::ostringstream os;
 
-			os << Re.getRuta()->getIdRuta() << "," << Re.getIdRemolque() << ")";
+			os << Ru.getIdRuta() << "," << Ru.getRemolqueRuta()->getIdRemolque() << ")";
 			query += os.str();
 			result = EjecutaQuery(query);
 
@@ -368,6 +368,7 @@ int CDatabaseLab4::insertRuta(const CRemolque& Re) {
 
 	return result;
 }
+
 int CDatabaseLab4::insertLocalizacionRuta(const CRuta& Ru) {
 	int l;
 	int i;
@@ -377,7 +378,7 @@ int CDatabaseLab4::insertLocalizacionRuta(const CRuta& Ru) {
 		//This condition checks that there is a connection active
 		if (m_p_con != NULL) {
 			l = Ru.getLocalizacion().size();
-			for (i = 0; i <= l; i++) {
+			for (i = 0; i < l; i++) {
 				std::string query("INSERT INTO LOCALIZACION_RUTA (ID_RUTA, ORDEN, ID_LOC)  VALUES (");
 				std::ostringstream os;
 

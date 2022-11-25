@@ -1,43 +1,46 @@
+#pragma once
 #include "CRuta.h"
 #include "CLocalizacion.h"
+#include "CRemolque.h"
 #include <string.h>
 #include <iostream>
-#include "CLocalizacion.h"
 #include <vector>
+
 
 using namespace std;
 
-//Defaut Constructor
 CRuta::CRuta() {
-	m_idRuta = 0;
-	//m_pv_localizacion = NULL;
 }
+
 //Constructor
-CRuta::CRuta(int idRuta, vector<CLocalizacion*> localizacion) {
+CRuta::CRuta(int idRuta, vector<CLocalizacion*> localizacion, CRemolque* remolque) {
 	m_idRuta = idRuta;
 	m_pv_localizacion = localizacion;
+	m_p_remolque = remolque;
+}
+CRuta::CRuta(const CRuta& a)
+{
 }
 CRuta::CRuta(const CRuta& a) {
 	m_idRuta = a.m_idRuta;
 	m_pv_localizacion = a.m_pv_localizacion;
+	m_p_remolque = a.m_p_remolque;
 }
 //Destructor
 CRuta::~CRuta() {
 	cout << "CRuta deleted with idRuta = " << m_idRuta << endl;
 }
 //Access functions
-int CRuta::getIdRuta() const {
+int CRuta::getIdRuta() const{
 	return m_idRuta;
 }
+
 vector <CLocalizacion*> CRuta::getLocalizacion() const {
 
 	return m_pv_localizacion;
 }
-//Operator<<
-//ostream& operator<<(ostream& o, const CRuta& c) {
-//	o << "idRuta: " << c.m_idRuta
-//		<< ", localizacion: " << c.m_pv_localizacion
-//		<< ".";
-//	return o;
-//}
+
+CRemolque* CRuta::getRemolqueRuta() const{
+	return m_p_remolque;
+}
 

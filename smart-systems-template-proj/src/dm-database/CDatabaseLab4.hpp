@@ -23,7 +23,7 @@ public:
 	//INSERTS
 
 	int insertLocalizacion(const CLocalizacion& c);
-	int insertRuta(const CRemolque& Re);
+	int insertRuta(const CRuta& Ru);
 	int insertLocalizacionRuta(const CRuta& Ru);
 
 	int insertRemolque(const CRemolque& r);

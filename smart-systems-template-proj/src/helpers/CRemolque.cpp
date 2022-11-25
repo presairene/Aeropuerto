@@ -18,13 +18,12 @@ CRemolque::CRemolque() {
 
 }
 
-CRemolque::CRemolque(int id, string estado, list <CSensor*> sensores, CAvion* avion, CRuta* ruta, CLocalizacion* localizacion)
+CRemolque::CRemolque(int id, string estado, list <CSensor*> sensores, CAvion* avion, CLocalizacion* localizacion)
 {
 	m_idRemolque = id;
 	m_estado = estado;
 	m_pl_sensores = sensores;
 	m_p_avion = avion;
-	m_p_ruta = ruta;
 	m_p_localizacion = localizacion;
 	cout << "I have been created with id_remolque = " << id << " and stage = " << estado << endl;
 }
@@ -56,10 +55,7 @@ CAvion* CRemolque::getAvion() const{
 	return m_p_avion;
 
 }
-CRuta* CRemolque::getRuta() const {
-	return m_p_ruta;
 
-}
 CLocalizacion* CRemolque::getLocalizacion() const {
 	return m_p_localizacion;
 }
