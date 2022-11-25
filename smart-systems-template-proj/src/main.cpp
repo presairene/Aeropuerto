@@ -16,6 +16,9 @@
 #include <CPrediccion.h>
 #include <CTime.h>
 
+#include <list>
+#include <vector>
+
 //DDBB
 #include "CDatabase.hpp"
 #include "CDatabaseLab4.hpp"
@@ -101,7 +104,7 @@ int main(void){
 		VectorRut1.push_back(&C1);
 		VectorRut1.push_back(&C2);
 		VectorRut1.push_back(&F3);
-		CRuta Rut1 = CRuta(1, VectorRut1, NULL);
+		CRuta Rut1 = CRuta(1, VectorRut1);
 
 		//Pista a Finger 2
 		vector<CLocalizacion*> VectorRut2;
@@ -110,7 +113,7 @@ int main(void){
 		VectorRut2.push_back(&C4);
 		VectorRut2.push_back(&C5);
 		VectorRut2.push_back(&F6);
-		CRuta Rut2 = CRuta(2, VectorRut2, NULL);
+		CRuta Rut2 = CRuta(2, VectorRut2);
 
 		//Pista a Finger 3
 		vector<CLocalizacion*> VectorRut3;
@@ -120,7 +123,7 @@ int main(void){
 		VectorRut3.push_back(&C7);
 		VectorRut3.push_back(&C8);
 		VectorRut3.push_back(&F6);
-		CRuta Rut3 = CRuta(3, VectorRut3, NULL);
+		CRuta Rut3 = CRuta(3, VectorRut3);
 
 		//Finger 1 a Pista
 		vector<CLocalizacion*> VectorRut4;
@@ -128,7 +131,7 @@ int main(void){
 		VectorRut4.push_back(&C2);
 		VectorRut4.push_back(&C1);
 		VectorRut4.push_back(&P0);
-		CRuta Rut4 = CRuta(4, VectorRut4, NULL);
+		CRuta Rut4 = CRuta(4, VectorRut4);
 
 		//Finger 2 a Pista
 		vector<CLocalizacion*> VectorRut5;
@@ -137,7 +140,7 @@ int main(void){
 		VectorRut5.push_back(&C4);
 		VectorRut5.push_back(&C1);
 		VectorRut5.push_back(&P0);
-		CRuta Rut5 = CRuta(5, VectorRut5, NULL);
+		CRuta Rut5 = CRuta(5, VectorRut5);
 
 
 		//Finger 3 a Pista
@@ -148,7 +151,7 @@ int main(void){
 		VectorRut6.push_back(&C4);
 		VectorRut6.push_back(&C1);
 		VectorRut6.push_back(&P0);
-		CRuta Rut6 = CRuta(6, VectorRut6, NULL);
+		CRuta Rut6 = CRuta(6, VectorRut6);
 
 		// Zona de matenimiento a zona de remolque (Pista)
 		vector<CLocalizacion*> VectorRut7;
@@ -158,7 +161,7 @@ int main(void){
 		VectorRut7.push_back(&C4);
 		VectorRut7.push_back(&C1);
 		VectorRut7.push_back(&P0);
-		CRuta Rut7 = CRuta(7, VectorRut7, NULL);
+		CRuta Rut7 = CRuta(7, VectorRut7);
 
 		// Zona de remolque (Pista) a zona de mantenimiento
 		vector<CLocalizacion*> VectorRut8;
@@ -169,7 +172,7 @@ int main(void){
 		VectorRut8.push_back(&C8);
 		VectorRut8.push_back(&C10);
 		VectorRut8.push_back(&M11);
-		CRuta Rut8 = CRuta(8, VectorRut8, NULL);
+		CRuta Rut8 = CRuta(8, VectorRut8);
 		
 
 		

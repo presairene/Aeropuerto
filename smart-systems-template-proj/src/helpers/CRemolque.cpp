@@ -40,8 +40,9 @@ CRemolque::~CRemolque(){
 }
 
 //Functions for member access
-int CRemolque::getIdRemolque() const {
-	return m_idRemolque;
+int CRemolque::getIdRemolque() {
+		return m_idRemolque;
+	
 }
 
 string CRemolque::getEstado() const{

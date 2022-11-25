@@ -5,7 +5,7 @@
 #include "CSensor.h"
 #include "CAvion.h"
 #include "CLocalizacion.h"
-#include "CRuta.h"
+//#include "CRuta.h"
 
 using namespace std;
 
@@ -29,7 +29,7 @@ public:
 	//Destructor
 	~CRemolque();
 	//Access functions
-	int getIdRemolque() const;
+	int getIdRemolque() ;
 	string getEstado() const;
 	list<CSensor*> getSensores() const;
 	CAvion* getAvion() const;

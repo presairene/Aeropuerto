@@ -1,6 +1,7 @@
 #include "CDatabaseLab4.hpp"
 #include "../helpers/CLocalizacion.h"
 #include"../helpers/CRemolque.h"
+#include "../helpers/CRuta.h"
 #include "../helpers/CSensor.h"
 
 
@@ -42,7 +43,7 @@ int CDatabaseLab4::insertLocalizacion(const CLocalizacion& loc) {
 
 	return result;
 }
-int CDatabaseLab4::insertRemolque(const CRemolque& r) {
+int CDatabaseLab4::insertRemolque(CRemolque& r) {
 	bool result = false;
 
 	try {
@@ -142,7 +143,7 @@ int CDatabaseLab4::insertPrediccion(const CSensor& s, const CPrediccion& p) {
 	return result;
 
 }
-int CDatabaseLab4::insertSensorBateria(const CSensor& s, const CRemolque& r) {
+int CDatabaseLab4::insertSensorBateria(const CSensor& s, CRemolque& r) {
 	bool result = false;
 
 	try {
@@ -343,7 +344,7 @@ int CDatabaseLab4::CambiarEstadoAvion() {
 	return result;
 }
 
-int CDatabaseLab4::insertRuta(const CRuta& Ru) {
+int CDatabaseLab4::insertRuta( CRuta& Ru) {
 
 	bool result = false;
 
@@ -353,7 +354,7 @@ int CDatabaseLab4::insertRuta(const CRuta& Ru) {
 			std::string query("INSERT INTO RUTA (ID_RUTA, ID_REMOLQUE)  VALUES (");
 			std::ostringstream os;
 
-			os << Ru.getIdRuta() << "," << Ru.getRemolqueRuta()->getIdRemolque() << ")";
+			os << Ru.getIdRuta() << "," << (Ru.getRemolqueRuta())->getIdRemolque() << ")";
 			query += os.str();
 			result = EjecutaQuery(query);
 
