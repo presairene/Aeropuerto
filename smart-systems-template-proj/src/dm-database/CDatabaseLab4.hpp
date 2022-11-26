@@ -27,12 +27,24 @@ public:
 	int insertSensorLocalizacion(const CSensor& s, const CLocalizacion& l);
 	int insertTipo(const CTipo& t);
 	int insertValor(const CValue& v, const CSensor& s);
+<<<<<<< Updated upstream
 
 	//OTHER
 	int EnviarRemolquesCarga();
 	int LeerSensorLocFINGER();
 	int LeerSensorLocPISTA();
 	int CambiarEstadoAvion();
+>>>>>>> Stashed changes
+=======
+	
+	
+	int EnviarRemolquesCarga();
+	int LeerSensorLocFINGER();
+	int LeerSensorLocPISTA();
+	int CambiarEstadoAvion(); 
+	int LeerIdAvion(const int idLoc);
+
+
 >>>>>>> Stashed changes
 
 private:
