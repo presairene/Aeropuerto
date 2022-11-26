@@ -44,6 +44,6 @@ public:
 	int LeerSensorLocFINGER();
 	int LeerSensorLocPISTA();
 	int CambiarEstadoAvion(); 
-
+	int LeerIdAvion(const int idLoc);
 
 };
