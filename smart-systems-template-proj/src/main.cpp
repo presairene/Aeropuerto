@@ -339,8 +339,9 @@ int main(void) {
 		//  ---------------------------- START SCAN CYCLE ---------------------------- 
 		while (1) {
 			boost::posix_time::ptime execTime = boost::posix_time::second_clock::local_time();
-
+			printf("HELLO WORLD");
 			if ((helpers::CTimeUtils::seconds_from_epoch(execTime) - lastExecution) >= TIME_SCAN_CYCLE_S) {
+				
 
 				//The content of this if should go in a execute function of the object which will contain the intelligence module
 				log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
@@ -607,7 +608,7 @@ int main(void) {
 								cout <<"Ha terminado la prueba de Eliminar Avion" << endl;
 
 
-//_________________________________INTELIGENCIA_______________________________________________
+////____________________________________________________INTELIGENCIA_______________________________________________
 					//1. Leer Sensor de Localizacion -> -1 si la pista esta libre; sino devuelve ID_LOC
 						avion_en_pista = dbObject.LeerSensorLocPISTA();
 						cout << "Avion en pista: "<< avion_en_pista << endl;

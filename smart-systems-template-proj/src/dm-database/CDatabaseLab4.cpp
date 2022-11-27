@@ -325,6 +325,7 @@ int CDatabaseLab4::EliminarAvion(const int idAv) {
 		if (m_p_con != NULL) {
 			std::string query("DELETE FROM AVION ");
 			std::ostringstream os;
+			os << "WHERE ID_AVION = " << idAv;
 			query += os.str();
 			result = EjecutaQuery(query);
 			cout <<"He mandado la query"<<endl;
