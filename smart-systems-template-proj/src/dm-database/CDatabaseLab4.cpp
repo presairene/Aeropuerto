@@ -243,6 +243,154 @@ int CDatabaseLab4::insertValor(const CValue& v, const CSensor& s) {
 
 
 //------------------------------------------------------------------------------ OTHER FUNCTIONS ----------------------------
+
+//Funciones del apartado PISTA
+//LeerSensorLocPISTA()  funciona porque solo hay una pista, si se quieren leer varias pistas habría que modificarlo
+int CDatabaseLab4::LeerSensorLocPISTA() {
+	int loc = -1;
+	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
+
+	try {
+
+		//This condition checks that there is a connectioSn active
+		if (m_p_con != NULL) {
+			std::string query("SELECT ID_LOC FROM LOCALIZACION ");
+			std::ostringstream os;
+			os << "WHERE TIPO LIKE 'Pista' ";
+			os << "AND ESTADO LIKE 'Ocupado' ";
+			query += os.str();
+			p_stmt = m_p_con->createStatement();
+			res = p_stmt->executeQuery(query);
+			if (res->next()) {
+				loc = res->getInt(1);
+			}
+			delete res;
+			delete p_stmt;
+			p_stmt = NULL;
+		}
+		else {
+			printf("ERROR m_p_con = NULL -> db is not connected ");
+		}
+	}
+	catch (sql::SQLException& e) {
+		if (res != NULL) delete res;
+		if (p_stmt != NULL) delete p_stmt;
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		return -1;
+	}
+	return loc;
+}
+int CDatabaseLab4::LeerIdAvion(const int idLoc) {
+	int id = -1;
+	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
+
+	try {
+
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("SELECT ID_AVION FROM AVION ");
+			std::ostringstream os;
+			os << "WHERE ID_LOC = " << idLoc;
+			query += os.str();
+			p_stmt = m_p_con->createStatement();
+			res = p_stmt->executeQuery(query);
+			if (res->next()) {
+				id = res->getInt(1);
+			}
+			delete res;
+			delete p_stmt;
+			p_stmt = NULL;
+		}
+		else {
+			printf("ERROR m_p_con = NULL -> db is not connected ");
+		}
+	}
+	catch (sql::SQLException& e) {
+		if (res != NULL) delete res;
+		if (p_stmt != NULL) delete p_stmt;
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		return -1;
+	}
+	return id;
+}
+int CDatabaseLab4::EliminarAvion(const int idAv) {
+	bool result = false;
+	try {
+
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("DELETE FROM AVION ");
+			std::ostringstream os;
+			query += os.str();
+			result = EjecutaQuery(query);
+			cout <<"He mandado la query"<<endl;
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		result = false;
+
+	}
+	return result;
+}
+int CDatabaseLab4::UpdateLocalizacion(const int idLoc, string cadena) {
+	bool result = false;
+	try {
+
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE LOCALIZACION ");
+			std::ostringstream os;
+			os << "SET ESTADO = '" << cadena << "' ";
+			os << "WHERE ID_LOC = " << idLoc;
+			query += os.str();
+			result = EjecutaQuery(query);
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		result = false;
+
+	}
+	return result;
+}
+int CDatabaseLab4::UpdateValorSensor(const int idLoc, const int val) {
+	bool result = false;
+	try {
+
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE VALOR ");
+			std::ostringstream os;
+			os << "SET VALOR = "  << val;
+			os << "WHERE ID_SENSOR = (SELECT ID_SENSOR FROM SENSOR_LOCALIZACION WHERE ID_LOC = " << idLoc <<" ) ";
+			query += os.str();
+			result = EjecutaQuery(query);
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		result = false;
+
+	}
+	return result;
+}
 int CDatabaseLab4::EnviarRemolquesCarga(){
 	bool result = false;
 
@@ -301,43 +449,7 @@ int CDatabaseLab4::LeerSensorLocFINGER() {
 	return result;
 }
 
-//LeerSensorLocPISTA()  funciona porque solo hay una pista, si se quieren leer varias pistas habría que modificarlo
-int CDatabaseLab4::LeerSensorLocPISTA() {
-	int loc = -1;
-	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
 
-	try {
-
-		//This condition checks that there is a connectioSn active
-		if (m_p_con != NULL) {
-			std::string query("SELECT ID_LOC FROM LOCALIZACION ");
-			std::ostringstream os;
-			os << "WHERE TIPO LIKE 'Pista' ";
-			os << "AND ESTADO LIKE 'Ocupado' ";
-			query += os.str();
-			p_stmt = m_p_con->createStatement();
-			res = p_stmt->executeQuery(query);
-			if (res->next()) {
-				loc = res->getInt(1);
-			}
-			delete res;
-			delete p_stmt;
-			p_stmt = NULL;
-		}
-		else {
-			printf("ERROR m_p_con = NULL -> db is not connected ");
-		}
-	}
-	catch (sql::SQLException& e) {
-		if (res != NULL) delete res;
-		if (p_stmt != NULL) delete p_stmt;
-		std::ostringstream os;
-		os << "ERROR:" << e.what();
-		_log.println(boost::log::trivial::error, os.str());
-		return -1;
-	}
-	return loc;
-}
 int CDatabaseLab4::CambiarEstadoAvion() {
 	bool result = false;
 
@@ -415,38 +527,3 @@ int CDatabaseLab4::insertLocalizacionRuta(const CRuta& Ru) {
 }
 
 
-int CDatabaseLab4::LeerIdAvion(const int idLoc) {
-	int id = -1;
-	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
-
-	try {
-
-		//This condition checks that there is a connection active
-		if (m_p_con != NULL) {
-			std::string query("SELECT ID_AVION FROM AVION ");
-			std::ostringstream os;
-			os << "WHERE ID_LOC = " << idLoc;
-			query += os.str();
-			p_stmt = m_p_con->createStatement();
-			res = p_stmt->executeQuery(query);
-			if (res->next()) {
-				id = res->getInt(1);
-			}
-			delete res;
-			delete p_stmt;
-			p_stmt = NULL;
-		}
-		else {
-			printf("ERROR m_p_con = NULL -> db is not connected ");
-		}
-	}
-	catch (sql::SQLException& e) {
-		if (res != NULL) delete res;
-		if (p_stmt != NULL) delete p_stmt;
-		std::ostringstream os;
-		os << "ERROR:" << e.what();
-		_log.println(boost::log::trivial::error, os.str());
-		return -1;
-	}
-	return id;
-}

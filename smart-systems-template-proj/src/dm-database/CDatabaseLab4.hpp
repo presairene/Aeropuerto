@@ -40,10 +40,17 @@ public:
 	
 	
 	//OTHER
+	//Funciones del apartado PISTA
+	int LeerSensorLocPISTA();
+	int LeerIdAvion(const int idLoc);
+	int EliminarAvion(const int idAv);
+	int UpdateLocalizacion(const int idLoc, string cadena);
+	int UpdateValorSensor(const int idLoc, const int val);
+
 	int EnviarRemolquesCarga();
 	int LeerSensorLocFINGER();
-	int LeerSensorLocPISTA();
+
 	int CambiarEstadoAvion(); 
-	int LeerIdAvion(const int idLoc);
+	
 
 };

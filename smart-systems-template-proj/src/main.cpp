@@ -1,5 +1,7 @@
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "boost/date_time/gregorian/gregorian.hpp"
+#include <string.h>
+#include <iostream>
 
 #include "CLog.hpp"
 #include "CLogListenerConsole.hpp"
@@ -72,7 +74,7 @@ int main(void) {
 		CPrediccion Pre1 = CPrediccion(7, fec1.getDate());
 		*/
 	//CREACION DE OBJETOS DE CADA CLASE
-	{
+	
 	// LOCALIZACIONES 
 		// Zona de recogida
 	CLocalizacion P0 = CLocalizacion(0, "Libre", "Pista", 4, 1);
@@ -290,7 +292,7 @@ int main(void) {
 	CSensor S3R3 = CSensor(3, &Pre3, &Tip1, listValue3, NULL);
 
 
-	// SENSOLES LOCALIZACION
+	// SENSORES LOCALIZACION
 	CTipo Tip2 = CTipo(2, "Localizacion");
 	CSensor S4L0 = CSensor(4, NULL, &Tip2, listValue4, &SP12);
 	CSensor S5L1 = CSensor(5, NULL, &Tip2, listValue5, &F3);
@@ -316,16 +318,20 @@ int main(void) {
 	list<CSensor*>::iterator ilistSensor3;
 	listSensor0.push_back(&S3R3);
 	ilistSensor0 = listSensor3.begin();
-
+	////----------Aviones------------------
 	CAvion Avi0 = CAvion(0, "Aparcado", &F6);
 	CAvion Avi1 = CAvion(1, "Aparcado", &F9);
-
+	int indice_idAvion = 1;
+	CAvion Avi2 = CAvion(indice_idAvion++, "Salida", &P0);
+	CAvion Avi3 = CAvion(indice_idAvion++, "Aparcado", &F3);
+	
+	////----------Remolques------------------
 
 	CRemolque Rem0 = CRemolque(0, "Libre", listSensor0, NULL, &M11);
 	CRemolque Rem1 = CRemolque(1, "Libre", listSensor1, NULL, &P0);
 	CRemolque Rem2 = CRemolque(2, "Libre", listSensor2, &Avi0, &F6);
 	CRemolque Rem3 = CRemolque(3, "Libre", listSensor3, &Avi1, &F9);
-	}
+	
 	
 
 
@@ -378,223 +384,272 @@ int main(void) {
 				dbObject.ComienzaTransaccion();
 
 				//INSERTA OF DATA
+				
+				////--------------------------------------Insert localizacion --------------------------------------------
+				//bool resultInsert = true;
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(P0);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(SP12);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(M11);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(C1);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(C4);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(C7);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(C2);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(C5);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(C8);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(C10);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(F3);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(F6);
+				//resultInsert = resultInsert && dbObject.insertLocalizacion(F9);
 
-/*
-				//--------------------------------------Insert localizacion --------------------------------------------
-				bool resultInsert = true;
-				resultInsert = resultInsert && dbObject.insertLocalizacion(P0);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(SP12);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(M11);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(C1);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(C4);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(C7);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(C2);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(C5);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(C8);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(C10);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(F3);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(F6);
-				resultInsert = resultInsert && dbObject.insertLocalizacion(F9);
+				//if (resultInsert) {
+				//	log.println(boost::log::trivial::trace, "Data insert OK");
+				//	dbObject.ConfirmarTransaccion();
+				//}
+				//else {
+				//	log.println(boost::log::trivial::trace, "Data insert ERROR");
+				//	dbObject.DeshacerTransaccion();
+				//}
 
-				if (resultInsert) {
-					log.println(boost::log::trivial::trace, "Data insert OK");
-					dbObject.ConfirmarTransaccion();
-				}
-				else {
-					log.println(boost::log::trivial::trace, "Data insert ERROR");
-					dbObject.DeshacerTransaccion();
-				}
+				////--------------------------------------Insert Remolque --------------------------------------------
 
-				//--------------------------------------Insert Remolque --------------------------------------------
+				//resultInsert = true;
+				//resultInsert = resultInsert && dbObject.insertRemolque(Rem0);
+				//resultInsert = resultInsert && dbObject.insertRemolque(Rem1);
+				//resultInsert = resultInsert && dbObject.insertRemolque(Rem2);
+				//resultInsert = resultInsert && dbObject.insertRemolque(Rem3);
 
-				resultInsert = true;
-				resultInsert = resultInsert && dbObject.insertRemolque(Rem0);
-				resultInsert = resultInsert && dbObject.insertRemolque(Rem1);
-				resultInsert = resultInsert && dbObject.insertRemolque(Rem2);
-				resultInsert = resultInsert && dbObject.insertRemolque(Rem3);
+				//if (resultInsert) {
+				//	log.println(boost::log::trivial::trace, "Data insert OK Valores");
+				//	dbObject.ConfirmarTransaccion();
+				//}
+				//else {
+				//	log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+				//	dbObject.DeshacerTransaccion();
+				//}
 
-				if (resultInsert) {
-					log.println(boost::log::trivial::trace, "Data insert OK Valores");
-					dbObject.ConfirmarTransaccion();
-				}
-				else {
-					log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
-					dbObject.DeshacerTransaccion();
-				}
+				//// -------------------------------------- - Insert Tipo----------------------------------------------
 
-				// -------------------------------------- - Insert Tipo----------------------------------------------
+				//resultInsert = true;
+				//resultInsert = resultInsert && dbObject.insertTipo(Tip1);
+				//resultInsert = resultInsert && dbObject.insertTipo(Tip2);
+				//if (resultInsert) {
+				//	log.println(boost::log::trivial::trace, "Data insert OK Tipo");
+				//	dbObject.ConfirmarTransaccion();
+				//}
+				//else {
+				//	log.println(boost::log::trivial::trace, "Data insert ERROR Tipo");
+				//	dbObject.DeshacerTransaccion();
+				//}
 
-				resultInsert = true;
-				resultInsert = resultInsert && dbObject.insertTipo(Tip1);
-				resultInsert = resultInsert && dbObject.insertTipo(Tip2);
-				if (resultInsert) {
-					log.println(boost::log::trivial::trace, "Data insert OK Tipo");
-					dbObject.ConfirmarTransaccion();
-				}
-				else {
-					log.println(boost::log::trivial::trace, "Data insert ERROR Tipo");
-					dbObject.DeshacerTransaccion();
-				}
+				////--------------------------------------Insert sensores --------------------------------------------
 
-				//--------------------------------------Insert sensores --------------------------------------------
+				//resultInsert = true;
+				//resultInsert = resultInsert && dbObject.insertSensor(S0R0);
+				//resultInsert = resultInsert && dbObject.insertSensor(S1R1);
+				//resultInsert = resultInsert && dbObject.insertSensor(S2R2);
+				//resultInsert = resultInsert && dbObject.insertSensor(S3R3);
+				//resultInsert = resultInsert && dbObject.insertSensor(S4L0);
+				//resultInsert = resultInsert && dbObject.insertSensor(S5L1);
+				//resultInsert = resultInsert && dbObject.insertSensor(S6L2);
+				//resultInsert = resultInsert && dbObject.insertSensor(S7L3);
 
-				resultInsert = true;
-				resultInsert = resultInsert && dbObject.insertSensor(S0R0);
-				resultInsert = resultInsert && dbObject.insertSensor(S1R1);
-				resultInsert = resultInsert && dbObject.insertSensor(S2R2);
-				resultInsert = resultInsert && dbObject.insertSensor(S3R3);
-				resultInsert = resultInsert && dbObject.insertSensor(S4L0);
-				resultInsert = resultInsert && dbObject.insertSensor(S5L1);
-				resultInsert = resultInsert && dbObject.insertSensor(S6L2);
-				resultInsert = resultInsert && dbObject.insertSensor(S7L3);
+				//if (resultInsert) {
+				//	log.println(boost::log::trivial::trace, "Data insert OK Valores");
+				//	dbObject.ConfirmarTransaccion();
+				//}
+				//else {
+				//	log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+				//	dbObject.DeshacerTransaccion();
+				//}
+				////--------------------------------------Insert valores --------------------------------------------
 
-				if (resultInsert) {
-					log.println(boost::log::trivial::trace, "Data insert OK Valores");
-					dbObject.ConfirmarTransaccion();
-				}
-				else {
-					log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
-					dbObject.DeshacerTransaccion();
-				}
-				//--------------------------------------Insert valores --------------------------------------------
+				//resultInsert = true;
+				//resultInsert = resultInsert && dbObject.insertValor(Value0, S0R0);
+				//resultInsert = resultInsert && dbObject.insertValor(Value1, S1R1);
+				//resultInsert = resultInsert && dbObject.insertValor(Value2, S2R2);
+				//resultInsert = resultInsert && dbObject.insertValor(Value3, S3R3);
+				//resultInsert = resultInsert && dbObject.insertValor(Value4, S4L0);
+				//resultInsert = resultInsert && dbObject.insertValor(Value5, S5L1);
+				//resultInsert = resultInsert && dbObject.insertValor(Value6, S6L2);
+				//resultInsert = resultInsert && dbObject.insertValor(Value7, S7L3);
 
-				resultInsert = true;
-				resultInsert = resultInsert && dbObject.insertValor(Value0, S0R0);
-				resultInsert = resultInsert && dbObject.insertValor(Value1, S1R1);
-				resultInsert = resultInsert && dbObject.insertValor(Value2, S2R2);
-				resultInsert = resultInsert && dbObject.insertValor(Value3, S3R3);
-				resultInsert = resultInsert && dbObject.insertValor(Value4, S4L0);
-				resultInsert = resultInsert && dbObject.insertValor(Value5, S5L1);
-				resultInsert = resultInsert && dbObject.insertValor(Value6, S6L2);
-				resultInsert = resultInsert && dbObject.insertValor(Value7, S7L3);
-
-				if (resultInsert) {
-					log.println(boost::log::trivial::trace, "Data insert OK Valores");
-					dbObject.ConfirmarTransaccion();
-				}
-				else {
-					log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
-					dbObject.DeshacerTransaccion();
-				}
-
-
-				// --------------------------------------Insert Sensor Localización y Bateria--------------------------------------------
-
-				// ------------------------------------------Localizacion--------------------------------
-				resultInsert = true;
-				resultInsert = resultInsert && dbObject.insertSensorLocalizacion(S4L0, P0);
-				resultInsert = resultInsert && dbObject.insertSensorLocalizacion(S5L1, F3);
-				resultInsert = resultInsert && dbObject.insertSensorLocalizacion(S6L2, F6);
-				resultInsert = resultInsert && dbObject.insertSensorLocalizacion(S7L3, F9);
-
-				if (resultInsert) {
-					log.println(boost::log::trivial::trace, "Data insert OK Valores");
-					dbObject.ConfirmarTransaccion();
-				}
-				else {
-					log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
-					dbObject.DeshacerTransaccion();
-				}
-				// -----------------------------------------Bateria ---------------------------------------------------------
-
-				resultInsert = true;
-				resultInsert = resultInsert && dbObject.insertSensorBateria(S0R0, Rem0);
-				resultInsert = resultInsert && dbObject.insertSensorBateria(S1R1, Rem1);
-				resultInsert = resultInsert && dbObject.insertSensorBateria(S2R2, Rem2);
-				resultInsert = resultInsert && dbObject.insertSensorBateria(S3R3, Rem3);
-
-				if (resultInsert) {
-					log.println(boost::log::trivial::trace, "Data insert OK Valores");
-					dbObject.ConfirmarTransaccion();
-				}
-				else {
-					log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
-					dbObject.DeshacerTransaccion();
+				//if (resultInsert) {
+				//	log.println(boost::log::trivial::trace, "Data insert OK Valores");
+				//	dbObject.ConfirmarTransaccion();
+				//}
+				//else {
+				//	log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+				//	dbObject.DeshacerTransaccion();
+				//}
 
 
-					//--------------------------------------Insert Predicion --------------------------------------------
+				//// --------------------------------------Insert Sensor Localización y Bateria--------------------------------------------
 
-					resultInsert = true;
-					resultInsert = resultInsert && dbObject.insertPrediccion(S0R0, Pre0);
-					resultInsert = resultInsert && dbObject.insertPrediccion(S1R1, Pre1);
-					resultInsert = resultInsert && dbObject.insertPrediccion(S2R2, Pre2);
-					resultInsert = resultInsert && dbObject.insertPrediccion(S3R3, Pre3);
+				//// ------------------------------------------Localizacion--------------------------------
+				//resultInsert = true;
+				//resultInsert = resultInsert && dbObject.insertSensorLocalizacion(S4L0, P0);
+				//resultInsert = resultInsert && dbObject.insertSensorLocalizacion(S5L1, F3);
+				//resultInsert = resultInsert && dbObject.insertSensorLocalizacion(S6L2, F6);
+				//resultInsert = resultInsert && dbObject.insertSensorLocalizacion(S7L3, F9);
 
-					if (resultInsert) {
-						log.println(boost::log::trivial::trace, "Data insert OK Valores");
-						dbObject.ConfirmarTransaccion();
-					}
-					else {
-						log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
-						dbObject.DeshacerTransaccion();
-					}
+				//if (resultInsert) {
+				//	log.println(boost::log::trivial::trace, "Data insert OK Valores");
+				//	dbObject.ConfirmarTransaccion();
+				//}
+				//else {
+				//	log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+				//	dbObject.DeshacerTransaccion();
+				//}
+				//// -----------------------------------------Bateria ---------------------------------------------------------
 
-					//--------------------------------------Insert ruta --------------------------------------------
+				//resultInsert = true;
+				//resultInsert = resultInsert && dbObject.insertSensorBateria(S0R0, Rem0);
+				//resultInsert = resultInsert && dbObject.insertSensorBateria(S1R1, Rem1);
+				//resultInsert = resultInsert && dbObject.insertSensorBateria(S2R2, Rem2);
+				//resultInsert = resultInsert && dbObject.insertSensorBateria(S3R3, Rem3);
 
-					resultInsert = true;
-					resultInsert = resultInsert && dbObject.insertRuta(Rut1);
-					resultInsert = resultInsert && dbObject.insertRuta(Rut2);
-					resultInsert = resultInsert && dbObject.insertRuta(Rut3);
-					resultInsert = resultInsert && dbObject.insertRuta(Rut4);
-					resultInsert = resultInsert && dbObject.insertRuta(Rut5);
-					resultInsert = resultInsert && dbObject.insertRuta(Rut6);
-					resultInsert = resultInsert && dbObject.insertRuta(Rut7);
-					resultInsert = resultInsert && dbObject.insertRuta(Rut8);
+				//if (resultInsert) {
+				//	log.println(boost::log::trivial::trace, "Data insert OK Valores");
+				//	dbObject.ConfirmarTransaccion();
+				//}
+				//else {
+				//	log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+				//	dbObject.DeshacerTransaccion();
 
-					if (resultInsert) {
-						log.println(boost::log::trivial::trace, "Data insert OK Valores");
-						dbObject.ConfirmarTransaccion();
-					}
-					else {
-						log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
-						dbObject.DeshacerTransaccion();
-					}
 
-					//--------------------------------------Insert Avion --------------------------------------------
+				//	//--------------------------------------Insert Predicion --------------------------------------------
 
-					resultInsert = true;
-					resultInsert = resultInsert && dbObject.insertAvion(Avi0);
-					resultInsert = resultInsert && dbObject.insertAvion(Avi1);
-					if (resultInsert) {
-						log.println(boost::log::trivial::trace, "Data insert OK Valores");
-						dbObject.ConfirmarTransaccion();
-					}
-					else {
-						log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
-						dbObject.DeshacerTransaccion();
-					}
-					//--------------------------------------Insert Localizacion - Ruta --------------------------------------------
+				//	resultInsert = true;
+				//	resultInsert = resultInsert && dbObject.insertPrediccion(S0R0, Pre0);
+				//	resultInsert = resultInsert && dbObject.insertPrediccion(S1R1, Pre1);
+				//	resultInsert = resultInsert && dbObject.insertPrediccion(S2R2, Pre2);
+				//	resultInsert = resultInsert && dbObject.insertPrediccion(S3R3, Pre3);
 
-					resultInsert = true;
-					resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut1);
-					resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut2);
-					resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut3);
-					resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut4);
-					resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut5);
-					resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut6);
-					resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut7);
-					resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut8);
+				//	if (resultInsert) {
+				//		log.println(boost::log::trivial::trace, "Data insert OK Valores");
+				//		dbObject.ConfirmarTransaccion();
+				//	}
+				//	else {
+				//		log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+				//		dbObject.DeshacerTransaccion();
+				//	}
 
-					if (resultInsert) {
-						log.println(boost::log::trivial::trace, "Data insert OK Valores");
-						dbObject.ConfirmarTransaccion();
-					}
-					else {
-						log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
-						dbObject.DeshacerTransaccion();
-					}
-*/
+				//	//--------------------------------------Insert ruta --------------------------------------------
 
+				//	resultInsert = true;
+				//	resultInsert = resultInsert && dbObject.insertRuta(Rut1);
+				//	resultInsert = resultInsert && dbObject.insertRuta(Rut2);
+				//	resultInsert = resultInsert && dbObject.insertRuta(Rut3);
+				//	resultInsert = resultInsert && dbObject.insertRuta(Rut4);
+				//	resultInsert = resultInsert && dbObject.insertRuta(Rut5);
+				//	resultInsert = resultInsert && dbObject.insertRuta(Rut6);
+				//	resultInsert = resultInsert && dbObject.insertRuta(Rut7);
+				//	resultInsert = resultInsert && dbObject.insertRuta(Rut8);
+
+				//	if (resultInsert) {
+				//		log.println(boost::log::trivial::trace, "Data insert OK Valores");
+				//		dbObject.ConfirmarTransaccion();
+				//	}
+				//	else {
+				//		log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+				//		dbObject.DeshacerTransaccion();
+				//	}
+
+				//	//--------------------------------------Insert Avion --------------------------------------------
+
+				//	resultInsert = true;
+				//	resultInsert = resultInsert && dbObject.insertAvion(Avi0);
+				//	resultInsert = resultInsert && dbObject.insertAvion(Avi1);
+				//	if (resultInsert) {
+				//		log.println(boost::log::trivial::trace, "Data insert OK Valores");
+				//		dbObject.ConfirmarTransaccion();
+				//	}
+				//	else {
+				//		log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+				//		dbObject.DeshacerTransaccion();
+				//	}
+				//	//--------------------------------------Insert Localizacion - Ruta --------------------------------------------
+
+				//	resultInsert = true;
+				//	resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut1);
+				//	resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut2);
+				//	resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut3);
+				//	resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut4);
+				//	resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut5);
+				//	resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut6);
+				//	resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut7);
+				//	resultInsert = resultInsert && dbObject.insertLocalizacionRuta(Rut8);
+
+				//	if (resultInsert) {
+				//		log.println(boost::log::trivial::trace, "Data insert OK Valores");
+				//		dbObject.ConfirmarTransaccion();
+				//	}
+				//	else {
+				//		log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+				//		dbObject.DeshacerTransaccion();
+				//	}
+
+//______________________________________________PRUEBA ELIMINAR AVION______________________________________
+								cout << "Ha comenzado la prueba de Eliminar Avion" << endl;
+								bool resultInsert = true;
+								resultInsert = true;
+								resultInsert = resultInsert && dbObject.insertAvion(Avi2);
+								resultInsert = resultInsert && dbObject.insertAvion(Avi3);
+								if (resultInsert) {
+									log.println(boost::log::trivial::trace, "Data insert OK Valores");
+									dbObject.ConfirmarTransaccion();
+								}
+								else {
+									log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+									dbObject.DeshacerTransaccion();
+								}
+								dbObject.EliminarAvion(3);
+								cout <<"Ha terminado la prueba de Eliminar Avion" << endl;
 
 
 //_________________________________INTELIGENCIA_______________________________________________
 					//1. Leer Sensor de Localizacion -> -1 si la pista esta libre; sino devuelve ID_LOC
 						avion_en_pista = dbObject.LeerSensorLocPISTA();
-						printf("Avion en pista: %d ", avion_en_pista);
-					//2. Comprobar si existe id Avion en esa localización-> si existe el avión va a despegar, si no el avión acaba de llegar
+						cout << "Avion en pista: "<< avion_en_pista << endl;
+						
 						if (avion_en_pista != -1) {
+							//2. Comprobar si existe id Avion en esa localización-> si existe el avión va a despegar, si no el avión acaba de llegar
 							id_avion_pista = dbObject.LeerIdAvion(2);
-							printf("EL ID DEL AVION ES: %d ", id_avion_pista); //-1 si no existe el avion
+							cout << "El ID del avion es: "<< id_avion_pista << endl; //-1 si no existe el avion
+							//3. Existe avion
+							if (id_avion_pista != -1) {
+								//3.1 Borrar avion de la base de datos
+								dbObject.EliminarAvion(id_avion_pista);
+								//3.2 Pista desocupada
+								dbObject.UpdateLocalizacion(avion_en_pista, "Libre");
+								dbObject.UpdateValorSensor(avion_en_pista, 0);
+							}
+							else{
+							//4. No existe Id Avion ¿Hay que generar el avion aquí o lo introduce el usuario?
+								//4.1 Insert Avion en base de datos
+								CAvion Avi = CAvion(indice_idAvion++, "Aterrizado", &P0);
+								resultInsert = resultInsert && dbObject.insertAvion(Avi);
+								if (resultInsert) {
+									log.println(boost::log::trivial::trace, "Data insert OK Valores");
+									dbObject.ConfirmarTransaccion();
+								}
+								else {
+									log.println(boost::log::trivial::trace, "Data insert ERROR Valores");
+									dbObject.DeshacerTransaccion();
+								}
+								//4.2 Asignar remolque
+
+
+								//4.3 Asignar finger
+
+								//4.4 Asignar ruta
+
+								//4.5 Cambiar pista a desocupada y valor del sensor a 0
+
+								//4.6 Finger ocupado (se detecta en la interfaz cambiando el valor de sensor) 
+
+								//4.7 Cambiar estado de avión a aparcado 
+							}
 						}
 						
 					
