@@ -31,7 +31,8 @@
 #define SCHEMA_NAME "mydb"
 #define HOST_NAME "127.0.0.1:3306"
 #define USER_NAME "root"
-#define PASSWORD_USER "BlancaMYSQL"
+//#define PASSWORD_USER "BlancaMYSQL"
+#define PASSWORD_USER "mysql"
 
 #define TIME_SCAN_CYCLE_S 900 //15 min
 
