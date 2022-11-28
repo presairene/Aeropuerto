@@ -44,7 +44,7 @@ public:
 	int LeerSensorLocPISTA();
 	int LeerIdAvion(const int idLoc);
 	int EliminarAvion(const int idAv);
-	int UpdateLocalizacion(const int idLoc, string cadena);
+	int UpdateLocalizacion(const int idLoc, string cadena);//No funciona
 	int UpdateValorSensor(const int idLoc, const int val);
 
 	int EnviarRemolquesCarga();
@@ -54,6 +54,7 @@ public:
 	
 	//Funciones del apartado BATERIA
 	int LeerSensorPredBateria();
-	bool UpdateRutaRemolque(const int idRem, const int idRuta);
+	bool UpdateRutaRemolque(const int idRem, const int idRuta); //No funciona
 	bool UpdateEstadoRemolque(const int idRem);
+	bool UpdateLocRemolque(const int idRem, const int idLoc);//No funciona
 };

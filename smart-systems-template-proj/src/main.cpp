@@ -31,7 +31,7 @@
 #define SCHEMA_NAME "mydb"
 #define HOST_NAME "127.0.0.1:3306"
 #define USER_NAME "root"
-#define PASSWORD_USER "mysql"
+#define PASSWORD_USER "BlancaMYSQL"
 
 #define TIME_SCAN_CYCLE_S 900 //15 min
 
@@ -653,7 +653,7 @@ int main(void) {
 							}
 						}
 						////___________BATERIAS_______________________________________________
-						//1. Comporbar si el remolque que se encuentra en la piest necesita recarga
+						//1. Comporbar si el remolque que se encuentra en la pista necesita recarga
 						remolque_sin_bateria = dbObject.LeerSensorPredBateria();
 						cout << "Remolque cuya predicion es 0% de bateria:  " << remolque_sin_bateria << endl;
 
@@ -663,11 +663,23 @@ int main(void) {
 						actualizadoBD = dbObject.UpdateRutaRemolque(remolque_sin_bateria, 7);
 						cout << "Se ha actualizado la base de datos:  " << actualizadoBD << endl;
 
-						//2. Actualizar el estado de nuestro remolque a 'Ocupado'
+						//2.1 Actualizar el estado de nuestro remolque a 'Ocupado'
 						cout << "Actualizamos el estado del remolque:  " << remolque_sin_bateria << " a 'Ocupado'" << endl;
 						actualizadoBD = false;
 						actualizadoBD = dbObject.UpdateEstadoRemolque(remolque_sin_bateria);
 						cout << "Se ha actualizado la base de datos segunda vez:  " << actualizadoBD << endl;
+
+						//2.1 Actualizar la localizacion de nuestro remolque a la zona de recarga (11)
+						cout << "Actualizamos la localización del remolque:  " << remolque_sin_bateria << " a '11'" << endl;
+						actualizadoBD = false;
+						actualizadoBD = dbObject.UpdateLocRemolque(remolque_sin_bateria, 11);
+						cout << "Se ha actualizado la base de datos tercera vez:  " << actualizadoBD << endl;
+
+						//2.2 Actualizar el estado de nuestra localización ZnCarga a 'Ocupado'
+						cout << "Actualizamos el estado de la localizacion de carga a 'Ocupado'" << endl;
+						actualizadoBD = false;
+						actualizadoBD = dbObject.UpdateLocalizacion(11,"Ocupado");
+						cout << "Se ha actualizado la base de datos cuarta vez:  " << actualizadoBD << endl;
 
 					dbObject.Desconectar();
 
