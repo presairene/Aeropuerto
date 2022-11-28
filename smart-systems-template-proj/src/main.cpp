@@ -100,8 +100,8 @@ int main(void) {
 
 	// Finges
 	CLocalizacion F3 = CLocalizacion(3, "Libre", "Finger", 3, 5);
-	CLocalizacion F6 = CLocalizacion(6, "Libre", "Finger", 2, 5);
-	CLocalizacion F9 = CLocalizacion(9, "Libre", "Finger", 1, 5);
+	CLocalizacion F6 = CLocalizacion(6, "Ocupado", "Finger", 2, 5);
+	CLocalizacion F9 = CLocalizacion(9, "Ocupado", "Finger", 1, 5);
 
 	// RUTAS
 	// Pista a Finger 1
