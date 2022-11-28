@@ -55,8 +55,9 @@ public:
 	//Funciones del apartado BATERIA
 	int LeerSensorPredBateria();
 	int UpdateRutaRemolque(const int idRem, const int idRuta); // Funciona
-	int UpdateEstadoRemolque(const int idRem); // Funciona
-	int UpdateLocRemolque(const int idRem, const int idLoc);//No funciona
+	int UpdateEstadoRemolque(const int idRem, const int ocupadoLibre); // Funciona Mandarle un 0 cambiar a libre y un uno cambiar a ocupado
+	int UpdateLocRemolque(const int idRem, const int idLoc);// FUNCIONA
+	int remolquecargado();
 
 
 

@@ -52,6 +52,7 @@ int main(void) {
 	int opcion = 1;
 	
 	int remolque_sin_bateria;
+	int remolque_con_bateria;
 
 	CValue value_aux = CValue();
 	CPrediccion pre_aux = CPrediccion();
@@ -176,7 +177,7 @@ int main(void) {
 
 		list<CValue*> listValue0;
 		list<CValue*>::iterator ilistValue0;
-		CTime fec = CTime(2022, 11, 24, 15, 00, 00);
+		CTime fec = CTime(2022, 10, 24, 15, 00, 00);
 		CValue Value0 = CValue(23.5, fec.getDate());
 		listValue0.push_back(&Value0);
 		ilistValue0 = listValue0.begin();
@@ -462,7 +463,8 @@ int main(void) {
 
 					//1. Comporbar si el remolque que se encuentra en la pista necesita recarga
 					remolque_sin_bateria = -1;
-					remolque_sin_bateria = dbObject.LeerSensorPredBateria(); // NO LEE EL ULTIMO VALOR
+					remolque_con_bateria = -1;
+					remolque_sin_bateria = dbObject.LeerSensorPredBateria(); 
 					
 
 					if (remolque_sin_bateria == -1) {
@@ -470,10 +472,14 @@ int main(void) {
 					}
 
 					else if (remolque_sin_bateria != -1) {
+
+						remolque_con_bateria = dbObject.remolquecargado();
 						//1. Asignar ruta de pista a mantenimiento FUNCIONA
 						cout << "Remolque cuya predicion es 0% de bateria:  " << remolque_sin_bateria << endl;
-						cout << "\n Enviamos al remolque:  " << remolque_sin_bateria << " a la ruta 7 (PISTA->APARCAMIENTO)" << endl;
+						cout << "\n Enviamos al remolque:  " << remolque_sin_bateria << " a la ruta 7 (PISTA->APARCAMIENTO) y al remolque: " << remolque_con_bateria << "  a la ruta 8 (APARCAMIENTO->pista)"<< endl;
+
 						resultInsert = resultInsert && dbObject.UpdateRutaRemolque(remolque_sin_bateria, 7);
+						resultInsert = resultInsert && dbObject.UpdateRutaRemolque(remolque_con_bateria, 8);
 
 
 						if (resultInsert) {
@@ -490,7 +496,8 @@ int main(void) {
 
 
 
-						resultInsert = resultInsert && dbObject.UpdateEstadoRemolque(remolque_sin_bateria);
+						resultInsert = resultInsert && dbObject.UpdateEstadoRemolque(remolque_sin_bateria,1);
+						resultInsert = resultInsert && dbObject.UpdateEstadoRemolque(remolque_con_bateria, 0);
 						cout << "Se ha actualizado la base de datos segunda vez, el estado del remolque " << endl;
 
 						if (resultInsert) {
@@ -504,8 +511,9 @@ int main(void) {
 						}
 
 						//2.2 Actualizar la localizacion de nuestro remolque a la zona de recarga (11)
-						cout << "Actualizamos la localización del remolque:  " << remolque_sin_bateria << " a '11'" << endl;
-						resultInsert = resultInsert && dbObject.UpdateLocRemolque(remolque_sin_bateria, 11);;
+						cout << "Actualizamos la localización del remolque:  " << remolque_sin_bateria << " a '11' y el remolque: " << remolque_con_bateria << "(con bateria) a la pista" << endl;
+						resultInsert = resultInsert && dbObject.UpdateLocRemolque(remolque_sin_bateria, 11);
+						resultInsert = resultInsert && dbObject.UpdateLocRemolque(remolque_con_bateria, 0);
 
 						if (resultInsert) {
 							log.println(boost::log::trivial::trace, "Data insert OK");
