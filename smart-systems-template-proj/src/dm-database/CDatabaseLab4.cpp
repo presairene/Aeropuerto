@@ -449,8 +449,6 @@ int CDatabaseLab4::LeerSensorLocFINGER() {
 
 	return result;
 }
-
-
 int CDatabaseLab4::CambiarEstadoAvion() {
 	bool result = false;
 
@@ -470,7 +468,6 @@ int CDatabaseLab4::CambiarEstadoAvion() {
 
 	return result;
 }
-
 int CDatabaseLab4::insertRuta( CRuta& Ru) {
 
 	bool result = false;
@@ -496,7 +493,6 @@ int CDatabaseLab4::insertRuta( CRuta& Ru) {
 
 	return result;
 }
-
 int CDatabaseLab4::insertLocalizacionRuta(const CRuta& Ru) {
 	int l;
 	int i;
@@ -527,4 +523,39 @@ int CDatabaseLab4::insertLocalizacionRuta(const CRuta& Ru) {
 	return result;
 }
 
+//Funciones del apartado BATERIAS
+//LeerSensorBateria()  funciona porque solo hay una pista, si se quieren leer varias pistas habría que modificarlo
+int CDatabaseLab4::LeerSensorPredBateria() {
+	int idRemolque = -1;
+	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
 
+	try {
+
+		//This condition checks that there is a connectioSn active
+		if (m_p_con != NULL) {
+			std::string query("SELECT r.ID_REMOLQUE FROM prediccion as p, sensor_bateria as s, remolque as r WHERE p.ID_SENSOR = s.ID_SENSOR AND  r.ID_REMOLQUE = s.ID_REMOLQUE AND p.VALOR_PRED = '0' AND r.ID_LOC = '0'");
+			std::ostringstream os;
+			query += os.str();
+			p_stmt = m_p_con->createStatement();
+			res = p_stmt->executeQuery(query);
+			if (res->next()) {
+				idRemolque = res->getInt(1);
+			}
+			delete res;
+			delete p_stmt;
+			p_stmt = NULL;
+		}
+		else {
+			printf("ERROR m_p_con = NULL -> db is not connected ");
+		}
+	}
+	catch (sql::SQLException& e) {
+		if (res != NULL) delete res;
+		if (p_stmt != NULL) delete p_stmt;
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		return -1;
+	}
+	return idRemolque;
+}

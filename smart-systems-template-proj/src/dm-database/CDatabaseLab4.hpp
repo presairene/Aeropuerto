@@ -52,5 +52,6 @@ public:
 
 	int CambiarEstadoAvion(); 
 	
-
+	//Funciones del apartado BATERIA
+	int LeerSensorPredBateria();
 };

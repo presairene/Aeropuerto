@@ -44,6 +44,7 @@ int main(void) {
 	CDatabaseLab4 dbObject;
 	int avion_en_pista;
 	int id_avion_pista;
+	int remolque_sin_bateria;
 	try {
 
 		CError::ReservaPool();
@@ -339,7 +340,6 @@ int main(void) {
 		//  ---------------------------- START SCAN CYCLE ---------------------------- 
 		while (1) {
 			boost::posix_time::ptime execTime = boost::posix_time::second_clock::local_time();
-			printf("HELLO WORLD");
 			if ((helpers::CTimeUtils::seconds_from_epoch(execTime) - lastExecution) >= TIME_SCAN_CYCLE_S) {
 				
 
@@ -652,8 +652,13 @@ int main(void) {
 								//4.7 Cambiar estado de avión a aparcado 
 							}
 						}
-						
-					
+						////___________BATERIAS_______________________________________________
+						//1. Leer Sensor de las Baterías -> -1 si no hay ningún remolque en la pista. 
+							//Si no devuelve el ID_REMOLQUE
+						remolque_sin_bateria = dbObject.LeerSensorPredBateria();
+						cout << "Remolque cuya predicion es 0% de bateria:  " << remolque_sin_bateria << endl;
+
+
 
 					dbObject.Desconectar();
 
