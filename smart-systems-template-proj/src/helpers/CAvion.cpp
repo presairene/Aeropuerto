@@ -10,26 +10,26 @@ CAvion::CAvion() {
 	m_idAvion = 0;
 	m_estado = "libre";
 	m_p_localizacion = NULL;
-	cout << "Default creation" << endl;
+	/*cout << "Default creation" << endl;*/
 }
 
 CAvion::CAvion(int idAvion, string estado, CLocalizacion* localizacion) {
 	m_idAvion = idAvion;
 	m_estado = estado;
 	m_p_localizacion = localizacion;
-	cout << "I have been created with id_avion: "<<m_idAvion<< " stage = " << m_estado << " and loc: "<<m_p_localizacion->getIdLocalizacion()<< endl;
+	//cout << "I have been created with id_avion: "<<m_idAvion<< " stage = " << m_estado << " and loc: "<<m_p_localizacion->getIdLocalizacion()<< endl;
 }
 
 CAvion::CAvion(const CAvion& a) {
 	m_idAvion = a.m_idAvion;
 	m_estado = a.m_estado;
 	m_p_localizacion = a.m_p_localizacion;
-	cout << "I have been created by copy of(" << a.m_idAvion << "," << a.m_estado << "," << m_p_localizacion->getIdLocalizacion() << ")" << endl;
+	//cout << "I have been created by copy of(" << a.m_idAvion << "," << a.m_estado << "," << m_p_localizacion->getIdLocalizacion() << ")" << endl;
 }
 
 //Destructor
 CAvion::~CAvion() {
-	cout << "I have been deleted id_avion:"<< m_idAvion << "stage= "<< m_estado << "and id_loc:"<< m_p_localizacion->getIdLocalizacion() << endl;
+	//cout << "I have been deleted id_avion:"<< m_idAvion << "stage= "<< m_estado << "and id_loc:"<< m_p_localizacion->getIdLocalizacion() << endl;
 }
 
 //Functions for member access

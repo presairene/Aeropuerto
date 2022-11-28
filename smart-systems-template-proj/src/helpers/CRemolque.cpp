@@ -14,7 +14,7 @@ using namespace std;
 CRemolque::CRemolque() {
 	m_idRemolque = 0;
 	m_estado = "libre";
-	cout << "Default creation" << endl;
+	//cout << "Default creation" << endl;
 
 }
 
@@ -25,7 +25,7 @@ CRemolque::CRemolque(int id, string estado, list <CSensor*> sensores, CAvion* av
 	m_pl_sensores = sensores;
 	m_p_avion = avion;
 	m_p_localizacion = localizacion;
-	cout << "I have been created with id_remolque = " << id << " and stage = " << estado << endl;
+	//cout << "I have been created with id_remolque = " << id << " and stage = " << estado << endl;
 }
 //
 //CRemolque::CRemolque(const CRemolque& r) {
@@ -36,7 +36,7 @@ CRemolque::CRemolque(int id, string estado, list <CSensor*> sensores, CAvion* av
 
 //Destructor
 CRemolque::~CRemolque(){
-	cout << "I have been deleted id_remolque = " << m_idRemolque << " and stage= " << m_estado << endl;
+	//cout << "I have been deleted id_remolque = " << m_idRemolque << " and stage= " << m_estado << endl;
 }
 
 //Functions for member access

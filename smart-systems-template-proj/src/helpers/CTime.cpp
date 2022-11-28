@@ -16,7 +16,7 @@ CTime::CTime() {
 	timeinfo->tm_min = 0;
 	timeinfo->tm_sec = 0;
 	date = mktime(timeinfo); // get the new date
-	cout << "Default creation" << endl;
+	//cout << "Default creation" << endl;
 }
 
 CTime::CTime(int year, int month, int day, int hour, int minute, int seconds) {
@@ -30,17 +30,17 @@ CTime::CTime(int year, int month, int day, int hour, int minute, int seconds) {
 	timeinfo->tm_min = minute;
 	timeinfo->tm_sec = seconds;
 	date = mktime(timeinfo); // get the new date
-	cout << "I have been created with date = " << date << endl;
+	//cout << "I have been created with date = " << date << endl;
 }
 
 CTime::CTime(const CTime& c) {
 	*this = c;
-	cout << "I have been created with date = " << c.date << endl;
+	//cout << "I have been created with date = " << c.date << endl;
 }
 
 //Destructor
 CTime::~CTime() {
-	cout << "I have been deleted date = " << date << endl;
+	//cout << "I have been deleted date = " << date << endl;
 }
 
 //Función para acceder a date

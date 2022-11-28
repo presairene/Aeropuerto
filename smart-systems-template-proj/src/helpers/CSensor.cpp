@@ -12,7 +12,7 @@ CSensor::CSensor() {
 	list<CValue*> list;
 	m_pl_value = list;
 	m_p_localizacion = new CLocalizacion();
-	cout << "Default creation" << endl;
+	/*cout << "Default creation" << endl;*/
 }
 
 CSensor::CSensor(int m_iS, CPrediccion* m_p_p, CTipo* m_p_t, list<CValue*> m_pl_v, CLocalizacion* m_p_l) {
@@ -21,18 +21,18 @@ CSensor::CSensor(int m_iS, CPrediccion* m_p_p, CTipo* m_p_t, list<CValue*> m_pl_
 	m_p_tipo = m_p_t;
 	m_pl_value = m_pl_v;
 	m_p_localizacion = m_p_l;
-	cout << "I have been created with idSensor = " << m_idSensor
+	/*cout << "I have been created with idSensor = " << m_idSensor
 		<< ", predicion = " << m_p_prediccion
 		<< ", tipo = " << m_p_tipo
-		<< " and localización = " << m_p_localizacion << endl;
+		<< " and localización = " << m_p_localizacion << endl;*/
 }
 
 CSensor::CSensor(const CSensor& c) {
 	*this = c;
-	cout << "I have been created with idSensor = " << c.m_idSensor
+	/*cout << "I have been created with idSensor = " << c.m_idSensor
 		<< ", predicion = " << c.m_p_prediccion
 		<< ", tipo = " << c.m_p_tipo
-		<< " and localización = " << c.m_p_localizacion << endl;
+		<< " and localización = " << c.m_p_localizacion << endl;*/
 }
 
 //Destructor

@@ -10,7 +10,7 @@ CLocalizacion::CLocalizacion() {
 	m_tipo = "camino";
 	m_coordenadasx = NULL;
 	m_coordenadasy = NULL;
-	cout << "Default creation of CLocalizacion" << endl;
+	//cout << "Default creation of CLocalizacion" << endl;
 }
 CLocalizacion::CLocalizacion(int id, std::string estado, std::string tipo, float coordenadasx, float coordenadasy) {
 	m_idLocalizacion = id;
@@ -18,8 +18,7 @@ CLocalizacion::CLocalizacion(int id, std::string estado, std::string tipo, float
 	m_tipo = tipo;
 	m_coordenadasx = coordenadasx;
 	m_coordenadasy = coordenadasy;
-	cout << "CLocalizacion creada con id_localizacion = " << m_idLocalizacion << ", estado = " << m_estado <<
-		", tipo = " << m_tipo << ", coordenadas = " << m_coordenadasx << "," << coordenadasy << endl;
+	//cout << "CLocalizacion creada con id_localizacion = " << m_idLocalizacion << ", estado = " << m_estado <<	", tipo = " << m_tipo << ", coordenadas = " << m_coordenadasx << "," << coordenadasy << endl;
 }
 /*CLocalizacion::CLocalizacion(const CLocalizacion& l) {
 	m_idLocalizacion = l.m_idLocalizacion;
@@ -29,7 +28,7 @@ CLocalizacion::CLocalizacion(int id, std::string estado, std::string tipo, float
 	m_coordenadasy = l.m_coordenadasy;
 }*/
 CLocalizacion::~CLocalizacion() {
-	cout << "CLocalizacion deleted with id = " << m_idLocalizacion << endl;
+	//cout << "CLocalizacion deleted with id = " << m_idLocalizacion << endl;
 }
 //Access functions
 int CLocalizacion::getIdLocalizacion() const {

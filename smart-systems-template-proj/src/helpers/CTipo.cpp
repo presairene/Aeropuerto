@@ -13,14 +13,14 @@ CTipo::CTipo() {
 CTipo::CTipo(int iT, string t) {
 	idTipo = iT;
 	tipo = t;
-	cout << "I have been created with idVariable = " << idTipo
-		<< " and description = " << tipo << endl;
+	//cout << "I have been created with idVariable = " << idTipo
+	//	<< " and description = " << tipo << endl;
 }
 
 CTipo::CTipo(const CTipo& c) {
 	*this = c;
-	cout << "I have been created with idVariable = " << c.idTipo
-		<< " and type = " << c.tipo << endl;
+	/*cout << "I have been created with idVariable = " << c.idTipo
+		<< " and type = " << c.tipo << endl;*/
 }
 
 //Destructor

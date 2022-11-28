@@ -10,6 +10,7 @@
 using namespace std;
 
 CRuta::CRuta() {
+	m_idRuta = 0;
 }
 
 //Constructor
@@ -33,7 +34,7 @@ CRuta::CRuta(const CRuta& a) {
 }
 //Destructor
 CRuta::~CRuta() {
-	cout << "CRuta deleted with idRuta = " << m_idRuta << endl;
+	//cout << "CRuta deleted with idRuta = " << m_idRuta << endl;
 }
 //Access functions
 int CRuta::getIdRuta() const{
