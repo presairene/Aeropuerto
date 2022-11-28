@@ -54,4 +54,6 @@ public:
 	
 	//Funciones del apartado BATERIA
 	int LeerSensorPredBateria();
+	bool UpdateRutaRemolque(const int idRem, const int idRuta);
+	bool UpdateEstadoRemolque(const int idRem);
 };

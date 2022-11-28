@@ -559,3 +559,59 @@ int CDatabaseLab4::LeerSensorPredBateria() {
 	}
 	return idRemolque;
 }
+//Update la ruta que hace el remolque
+bool CDatabaseLab4::UpdateRutaRemolque(const int idRem, const int idRuta) {
+	bool result = false;
+	try {
+
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE ruta SET ID_REMOLQUE = ");
+			std::ostringstream os;
+
+			os << idRem;
+			os << " WHERE ID_RUTA = " << idRuta;
+			query += os.str();
+			cout << query;
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		result = false;
+
+	}
+	return result;
+}
+bool CDatabaseLab4::UpdateEstadoRemolque(const int idRem) {
+	bool result = false;
+	try {
+
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE remolque SET ESTADO ='Ocupado' ");
+			std::ostringstream os;
+
+			os << "WHERE ID_REMOLQUE= " << idRem;
+			query += os.str();
+			cout << query;
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		result = false;
+
+	}
+	return result;
+}

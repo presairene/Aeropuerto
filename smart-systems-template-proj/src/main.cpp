@@ -653,12 +653,21 @@ int main(void) {
 							}
 						}
 						////___________BATERIAS_______________________________________________
-						//1. Leer Sensor de las Baterías -> -1 si no hay ningún remolque en la pista. 
-							//Si no devuelve el ID_REMOLQUE
+						//1. Comporbar si el remolque que se encuentra en la piest necesita recarga
 						remolque_sin_bateria = dbObject.LeerSensorPredBateria();
 						cout << "Remolque cuya predicion es 0% de bateria:  " << remolque_sin_bateria << endl;
 
+						//1. Asignar ruta de pista a mantenimiento
+						cout << "Enviamos al remolque:  " << remolque_sin_bateria << " a la ruta 7 (PISTA->APARCAMIENTO)" << endl;
+						bool actualizadoBD = false;
+						actualizadoBD = dbObject.UpdateRutaRemolque(remolque_sin_bateria, 7);
+						cout << "Se ha actualizado la base de datos:  " << actualizadoBD << endl;
 
+						//2. Actualizar el estado de nuestro remolque a 'Ocupado'
+						cout << "Actualizamos el estado del remolque:  " << remolque_sin_bateria << " a 'Ocupado'" << endl;
+						actualizadoBD = false;
+						actualizadoBD = dbObject.UpdateEstadoRemolque(remolque_sin_bateria);
+						cout << "Se ha actualizado la base de datos segunda vez:  " << actualizadoBD << endl;
 
 					dbObject.Desconectar();
 
