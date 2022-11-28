@@ -118,6 +118,9 @@ int CDatabaseLab4::insertSensor(const CSensor& s) {
 	return result;
 
 }
+
+
+
 int CDatabaseLab4::insertPrediccion(const CSensor& s, const CPrediccion& p) {
 	bool result = false;
 
@@ -255,8 +258,7 @@ int CDatabaseLab4::EnviarRemolquesCarga(){
 			os << "WHERE P.ID_SENSOR = SB.ID_SENSOR";
 			os << "AND SB.ID_SENSOR = S.ID_SENSOR";
 			os << "AND S.ID_SENSOR = V.ID_SENSOR";
-			os << "AND S.ID_SENSOR = S_L.ID_SENSOR";
-			os << "AND P.FECHA = ''";
+			os << "AND S.ID_SENSOR = S_L.ID_LOC";
 			os << "AND(P.VALOR < 0.10 OR V.VALOR < 0.10)";
 			
 
@@ -399,3 +401,28 @@ int CDatabaseLab4::insertLocalizacionRuta(const CRuta& Ru) {
 
 	return result;
 }
+
+
+int CDatabaseLab4::buscarBateriaBaja() {
+
+	bool result = false;
+
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("SELECT P.ID_SENSOR AS ID_SENSOR FROM  (SELECT ID_REMOLQUE FROM REMOLQUE WHERE ID_LOC = 0) AS R, (SELECT ID_SENSOR, FECHA_PRED FROM PREDICCION WHERE  VALOR_PRED = 0) AS P, sensor_bateria AS S WHERE S.ID_SENSOR =  R.ID_REMOLQUE AND S.ID_SENSOR = P.ID_SENSOR ORDER BY P.FECHA_PRED desc LIMIT 1");
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+

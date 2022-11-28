@@ -45,5 +45,8 @@ public:
 	int LeerSensorLocPISTA();
 	int CambiarEstadoAvion(); 
 
+	int buscarBateriaBaja();
+
+
 
 };
