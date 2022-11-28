@@ -50,7 +50,8 @@ int main(void) {
 	int s_id_finger;
 	int s_id_remolque;
 	int opcion = 1;
-	int id_sensorbb = -1;
+	
+	int remolque_sin_bateria;
 
 	CValue value_aux = CValue();
 	CPrediccion pre_aux = CPrediccion();
@@ -449,7 +450,7 @@ int main(void) {
 						resultInsert = resultInsert && dbObject.insertValor(value_aux, S3R3);
 						resultInsert = resultInsert && dbObject.insertPrediccion(S3R3, pre_aux);
 					}
-					
+
 					if (resultInsert) {
 						log.println(boost::log::trivial::trace, "Data insert OK");
 						dbObject.ConfirmarTransaccion();
@@ -458,14 +459,88 @@ int main(void) {
 						log.println(boost::log::trivial::trace, "Data insert ERROR");
 						dbObject.DeshacerTransaccion();
 					}
+
+					//1. Comporbar si el remolque que se encuentra en la pista necesita recarga
+					remolque_sin_bateria = -1;
+					remolque_sin_bateria = dbObject.LeerSensorPredBateria(); // NO LEE EL ULTIMO VALOR
 					
-					id_sensorbb = dbObject.buscarBateriaBaja();
-					
 
-					dbObject.Desconectar();
+					if (remolque_sin_bateria == -1) {
+						cout << "Todos los remolques cargados" << remolque_sin_bateria << endl;
+					}
 
-					lastExecution = helpers::CTimeUtils::seconds_from_epoch(execTime);
+					else if (remolque_sin_bateria != -1) {
+						//1. Asignar ruta de pista a mantenimiento FUNCIONA
+						cout << "Remolque cuya predicion es 0% de bateria:  " << remolque_sin_bateria << endl;
+						cout << "\n Enviamos al remolque:  " << remolque_sin_bateria << " a la ruta 7 (PISTA->APARCAMIENTO)" << endl;
+						resultInsert = resultInsert && dbObject.UpdateRutaRemolque(remolque_sin_bateria, 7);
 
+
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << "Se ha actualizado la base de datos" << endl;
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+
+						//2.1 Actualizar el estado de nuestro remolque a 'Ocupado' FUNCIONA
+
+
+
+						resultInsert = resultInsert && dbObject.UpdateEstadoRemolque(remolque_sin_bateria);
+						cout << "Se ha actualizado la base de datos segunda vez, el estado del remolque " << endl;
+
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << "Actualizamos el estado del remolque:  " << remolque_sin_bateria << " a 'Ocupado'" << endl;
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+
+						//2.2 Actualizar la localizacion de nuestro remolque a la zona de recarga (11)
+						cout << "Actualizamos la localización del remolque:  " << remolque_sin_bateria << " a '11'" << endl;
+						resultInsert = resultInsert && dbObject.UpdateLocRemolque(remolque_sin_bateria, 11);;
+
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << "\n Se ha actualizado la base de datos tercera vez " << endl;
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+
+
+
+						//2.2 Actualizar el estado de nuestra localización ZnCarga a 'Ocupado'
+
+						cout << "Actualizamos el estado de la localizacion de carga a 'Ocupado'" << endl;
+						resultInsert = resultInsert && dbObject.UpdateLocalizacion(11, "Ocupado");
+
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << "\n Se ha actualizado la base de datos 4 vez " << endl;
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+
+
+
+						dbObject.Desconectar();
+
+						lastExecution = helpers::CTimeUtils::seconds_from_epoch(execTime);
+
+					}
 				}
 
 
