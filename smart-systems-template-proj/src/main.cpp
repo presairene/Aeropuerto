@@ -53,7 +53,7 @@ int main(void) {
 
 
 	int avion_en_pista;
-	int id_avion_pista;
+	int id_avion_pista = -1;
 	int existe_avion;
 	int finger_asignado;
 	int remolque_asignado;
@@ -251,8 +251,8 @@ int main(void) {
 		CRemolque RemDummy = CRemolque(-1, "", listSensorDummy, NULL, &LocDummy);
 		CRemolque Rem0 = CRemolque(0, "Libre", listSensor0, NULL, &M11);
 		CRemolque Rem1 = CRemolque(1, "Libre", listSensor1, NULL, &P0);
-		CRemolque Rem2 = CRemolque(2, "Libre", listSensor2, &Avi0, &F6);
-		CRemolque Rem3 = CRemolque(3, "Libre", listSensor3, &Avi1, &F9);
+		CRemolque Rem2 = CRemolque(2, "Ocupado", listSensor2, &Avi0, &F6);
+		CRemolque Rem3 = CRemolque(3, "Ocupado", listSensor3, &Avi1, &F9);
 
 
 		// RUTAS
@@ -452,10 +452,22 @@ int main(void) {
 						}
 
 						remolque_asignado = dbObject.LeerRemolquePista();
-						if (remolque_asignado) {
+						if (remolque_asignado != -1) {
 							log.println(boost::log::trivial::trace, "Data insert OK");
 							dbObject.ConfirmarTransaccion();
-							cout << " Remolque: " << remolque_asignado << "recoge al avion en pista" << endl;
+							cout << " Remolque: " << remolque_asignado << " recoge al avion en pista" << endl;
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+							cout << "No hay remolques en pista" << endl;
+						}
+						resultInsert = true;
+						resultInsert = resultInsert && dbObject.UpdateEstadoRemolque(remolque_asignado, 1);
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+
 						}
 						else {
 							log.println(boost::log::trivial::trace, "Data insert ERROR");
@@ -506,8 +518,20 @@ int main(void) {
 						}
 						resultInsert = true;
 						resultInsert = resultInsert && dbObject.UpdateLocalizacion(finger_asignado, "Ocupado");
+						resultInsert = resultInsert && dbObject.updateLocAvion(id_avion_pista, finger_asignado);
 						resultInsert = resultInsert && dbObject.UpdateEstadoAvion("Aparcado", id_avion_pista);
 						resultInsert = resultInsert && dbObject.UpdateLocalizacion(0, "Libre");
+						resultInsert = resultInsert && dbObject.UpdateLocRemolque(remolque_asignado, finger_asignado);
+
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << "\n Se ha actualizado la base de datos tercera vez " << endl;
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
 						if (resultInsert) {
 							log.println(boost::log::trivial::trace, "Data insert OK");
 							dbObject.ConfirmarTransaccion();
@@ -520,7 +544,19 @@ int main(void) {
 							log.println(boost::log::trivial::trace, "Data insert ERROR");
 							dbObject.DeshacerTransaccion();
 						}
+						resultInsert = true;
+						resultInsert = resultInsert && dbObject.UpdateRutaRemolque(-1, ruta_asignada);
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << "Ruta borrada " << endl;
+							
 
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
 					}
 
 				}
@@ -789,6 +825,21 @@ int main(void) {
 							dbObject.DeshacerTransaccion();
 						}
 
+						resultInsert = true;
+						resultInsert = resultInsert && dbObject.UpdateRutaRemolque(-1, 7);
+						resultInsert = resultInsert && dbObject.UpdateRutaRemolque(-1, 7);
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << "Ruta borrada " << endl;
+
+
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+					}
 
 
 						dbObject.Desconectar();
@@ -796,8 +847,6 @@ int main(void) {
 						lastExecution = helpers::CTimeUtils::seconds_from_epoch(execTime);
 
 					}
-				}
-
 				
 				break;
 			case 4:
