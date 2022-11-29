@@ -94,83 +94,7 @@ int main(void) {
 		CLocalizacion F6 = CLocalizacion(6, "Ocupado", "Finger", 2, 5);
 		CLocalizacion F9 = CLocalizacion(9, "Ocupado", "Finger", 1, 5);
 
-
-		// RUTAS
-		// Pista a Finger 1
-		vector<CLocalizacion*> VectorRut1;
-		VectorRut1.push_back(&P0);
-		VectorRut1.push_back(&C1);
-		VectorRut1.push_back(&C2);
-		VectorRut1.push_back(&F3);
-		CRuta Rut1 = CRuta(1, VectorRut1);
-
-		//Pista a Finger 2
-		vector<CLocalizacion*> VectorRut2;
-		VectorRut2.push_back(&P0);
-		VectorRut2.push_back(&C1);
-		VectorRut2.push_back(&C4);
-		VectorRut2.push_back(&C5);
-		VectorRut2.push_back(&F6);
-		CRuta Rut2 = CRuta(2, VectorRut2);
-
-		//Pista a Finger 3
-		vector<CLocalizacion*> VectorRut3;
-		VectorRut3.push_back(&P0);
-		VectorRut3.push_back(&C1);
-		VectorRut3.push_back(&C4);
-		VectorRut3.push_back(&C7);
-		VectorRut3.push_back(&C8);
-		VectorRut3.push_back(&F6);
-		CRuta Rut3 = CRuta(3, VectorRut3);
-
-		//Finger 1 a Pista
-		vector<CLocalizacion*> VectorRut4;
-		VectorRut4.push_back(&F3);
-		VectorRut4.push_back(&C2);
-		VectorRut4.push_back(&C1);
-		VectorRut4.push_back(&P0);
-		CRuta Rut4 = CRuta(4, VectorRut4);
-
-		//Finger 2 a Pista
-		vector<CLocalizacion*> VectorRut5;
-		VectorRut5.push_back(&F6);
-		VectorRut5.push_back(&C5);
-		VectorRut5.push_back(&C4);
-		VectorRut5.push_back(&C1);
-		VectorRut5.push_back(&P0);
-		CRuta Rut5 = CRuta(5, VectorRut5);
-
-
-		//Finger 3 a Pista
-		vector<CLocalizacion*> VectorRut6;
-		VectorRut6.push_back(&F9);
-		VectorRut6.push_back(&C8);
-		VectorRut6.push_back(&C7);
-		VectorRut6.push_back(&C4);
-		VectorRut6.push_back(&C1);
-		VectorRut6.push_back(&P0);
-		CRuta Rut6 = CRuta(6, VectorRut6);
-
-		// Zona de matenimiento a zona de remolque (Pista)
-		vector<CLocalizacion*> VectorRut7;
-		VectorRut7.push_back(&M11);
-		VectorRut7.push_back(&C10);
-		VectorRut7.push_back(&C7);
-		VectorRut7.push_back(&C4);
-		VectorRut7.push_back(&C1);
-		VectorRut7.push_back(&P0);
-		CRuta Rut7 = CRuta(7, VectorRut7);
-
-		// Zona de remolque (Pista) a zona de mantenimiento
-		vector<CLocalizacion*> VectorRut8;
-		VectorRut8.push_back(&P0);
-		VectorRut8.push_back(&C1);
-		VectorRut8.push_back(&C4);
-		VectorRut8.push_back(&C7);
-		VectorRut8.push_back(&C8);
-		VectorRut8.push_back(&C10);
-		VectorRut8.push_back(&M11);
-		CRuta Rut8 = CRuta(8, VectorRut8);
+		CLocalizacion LocDummy = CLocalizacion(-1, "Dummy", "Dummy", -1, -1);
 
 
 		//VALORES BATERIAS
@@ -178,18 +102,18 @@ int main(void) {
 		list<CValue*> listValue0;
 		list<CValue*>::iterator ilistValue0;
 		CTime fec = CTime(2022, 10, 24, 15, 00, 00);
-		CValue Value0 = CValue(23.5, fec.getDate());
+		CValue Value0 = CValue(100, fec.getDate());
 		listValue0.push_back(&Value0);
 		ilistValue0 = listValue0.begin();
 		CPrediccion Pre0 = CPrediccion();
 		if (Value0.getValor() <= 25.0F) {
-			CPrediccion Pre0 = CPrediccion(0.0F, fec.getDate());
+			Pre0 = CPrediccion(0.0F, fec.getDate());
 		}
 		else if (Value0.getValor() <= 75.0F) {
-			CPrediccion Pre0 = CPrediccion(50.0F, fec.getDate());
+			Pre0 = CPrediccion(50.0F, fec.getDate());
 		}
 		else if (Value0.getValor() > 75.0F){
-			CPrediccion Pre0 = CPrediccion(100.0F, fec.getDate());
+			Pre0 = CPrediccion(100.0F, fec.getDate());
 		}
 
 
@@ -290,6 +214,7 @@ int main(void) {
 		CSensor S6L2 = CSensor(6, NULL, &Tip2, listValue6, &F6);
 		CSensor S7L3 = CSensor(7, NULL, &Tip2, listValue7, &F9);
 
+		
 		list<CSensor*> listSensor0;
 		list<CSensor*>::iterator ilistSensor0;
 		listSensor0.push_back(&S0R0);
@@ -310,14 +235,98 @@ int main(void) {
 		listSensor0.push_back(&S3R3);
 		ilistSensor0 = listSensor3.begin();
 
+		list<CSensor*> listSensorDummy;
+		list<CSensor*>::iterator ilistSensorDummy;
+		listSensorDummy.push_back(NULL);
+		ilistSensorDummy = listSensorDummy.begin();
+
 		CAvion Avi0 = CAvion(0, "Aparcado", &F6);
 		CAvion Avi1 = CAvion(1, "Aparcado", &F9);
 
-
+		CRemolque RemDummy = CRemolque(-1, "", listSensorDummy, NULL, &LocDummy);
 		CRemolque Rem0 = CRemolque(0, "Libre", listSensor0, NULL, &M11);
 		CRemolque Rem1 = CRemolque(1, "Libre", listSensor1, NULL, &P0);
 		CRemolque Rem2 = CRemolque(2, "Libre", listSensor2, &Avi0, &F6);
 		CRemolque Rem3 = CRemolque(3, "Libre", listSensor3, &Avi1, &F9);
+
+
+		// RUTAS
+		// Pista a Finger 1
+		vector<CLocalizacion*> VectorRut1;
+		VectorRut1.push_back(&P0);
+		VectorRut1.push_back(&C1);
+		VectorRut1.push_back(&C2);
+		VectorRut1.push_back(&F3);
+		CRuta Rut1 = CRuta(1, VectorRut1, &RemDummy);
+
+		//Pista a Finger 2
+		vector<CLocalizacion*> VectorRut2;
+		VectorRut2.push_back(&P0);
+		VectorRut2.push_back(&C1);
+		VectorRut2.push_back(&C4);
+		VectorRut2.push_back(&C5);
+		VectorRut2.push_back(&F6);
+		CRuta Rut2 = CRuta(2, VectorRut2, &RemDummy);
+
+		//Pista a Finger 3
+		vector<CLocalizacion*> VectorRut3;
+		VectorRut3.push_back(&P0);
+		VectorRut3.push_back(&C1);
+		VectorRut3.push_back(&C4);
+		VectorRut3.push_back(&C7);
+		VectorRut3.push_back(&C8);
+		VectorRut3.push_back(&F6);
+		CRuta Rut3 = CRuta(3, VectorRut3, &RemDummy);
+
+		//Finger 1 a Pista
+		vector<CLocalizacion*> VectorRut4;
+		VectorRut4.push_back(&F3);
+		VectorRut4.push_back(&C2);
+		VectorRut4.push_back(&C1);
+		VectorRut4.push_back(&P0);
+		CRuta Rut4 = CRuta(4, VectorRut4, &RemDummy);
+
+		//Finger 2 a Pista
+		vector<CLocalizacion*> VectorRut5;
+		VectorRut5.push_back(&F6);
+		VectorRut5.push_back(&C5);
+		VectorRut5.push_back(&C4);
+		VectorRut5.push_back(&C1);
+		VectorRut5.push_back(&P0);
+		CRuta Rut5 = CRuta(5, VectorRut5, &RemDummy);
+
+
+		//Finger 3 a Pista
+		vector<CLocalizacion*> VectorRut6;
+		VectorRut6.push_back(&F9);
+		VectorRut6.push_back(&C8);
+		VectorRut6.push_back(&C7);
+		VectorRut6.push_back(&C4);
+		VectorRut6.push_back(&C1);
+		VectorRut6.push_back(&P0);
+		CRuta Rut6 = CRuta(6, VectorRut6, &RemDummy);
+
+		// Zona de matenimiento a zona de remolque (Pista)
+		vector<CLocalizacion*> VectorRut7;
+		VectorRut7.push_back(&M11);
+		VectorRut7.push_back(&C10);
+		VectorRut7.push_back(&C7);
+		VectorRut7.push_back(&C4);
+		VectorRut7.push_back(&C1);
+		VectorRut7.push_back(&P0);
+		CRuta Rut7 = CRuta(7, VectorRut7, &RemDummy);
+
+		// Zona de remolque (Pista) a zona de mantenimiento
+		vector<CLocalizacion*> VectorRut8;
+		VectorRut8.push_back(&P0);
+		VectorRut8.push_back(&C1);
+		VectorRut8.push_back(&C4);
+		VectorRut8.push_back(&C7);
+		VectorRut8.push_back(&C8);
+		VectorRut8.push_back(&C10);
+		VectorRut8.push_back(&M11);
+		CRuta Rut8 = CRuta(8, VectorRut8, &RemDummy);
+
 
 
 		//  ---------------------------- START SCAN CYCLE ---------------------------- 
@@ -597,6 +606,7 @@ int main(void) {
 					resultInsert = resultInsert && dbObject.insertLocalizacion(F3);
 					resultInsert = resultInsert && dbObject.insertLocalizacion(F6);
 					resultInsert = resultInsert && dbObject.insertLocalizacion(F9);
+					resultInsert = resultInsert && dbObject.insertLocalizacion(LocDummy);
 
 					if (resultInsert) {
 						log.println(boost::log::trivial::trace, "Data insert OK");
@@ -614,6 +624,7 @@ int main(void) {
 					resultInsert = resultInsert && dbObject.insertRemolque(Rem1);
 					resultInsert = resultInsert && dbObject.insertRemolque(Rem2);
 					resultInsert = resultInsert && dbObject.insertRemolque(Rem3);
+					resultInsert = resultInsert && dbObject.insertRemolque(RemDummy);
 
 					if (resultInsert) {
 						log.println(boost::log::trivial::trace, "Data insert OK Valores");

@@ -17,15 +17,14 @@ CRuta::CRuta() {
 CRuta::CRuta(int idRuta, vector<CLocalizacion*> localizacion, CRemolque* remolque) {
 	m_idRuta = idRuta;
 	m_pv_localizacion = localizacion;
-
 	m_p_remolque = remolque;
 }
-CRuta::CRuta(int idRuta, vector<CLocalizacion*> localizacion) {
-	m_idRuta = idRuta;
-	m_pv_localizacion = localizacion;
-
-	m_p_remolque = new CRemolque();
-}
+//CRuta::CRuta(int idRuta, vector<CLocalizacion*> localizacion) {
+//	m_idRuta = idRuta;
+//	m_pv_localizacion = localizacion;
+//
+//	m_p_remolque = new CRemolque();
+//}
 
 CRuta::CRuta(const CRuta& a) {
 	m_idRuta = a.m_idRuta;
