@@ -46,6 +46,7 @@ public:
 	int EliminarAvion(const int idAv);
 	int UpdateLocalizacion(const int idLoc, string cadena);
 	int UpdateValorSensor(const int idLoc, const int val);
+	int AsignarRemolque(int idAv);
 
 	int EnviarRemolquesCarga();
 	int LeerSensorLocFINGER();

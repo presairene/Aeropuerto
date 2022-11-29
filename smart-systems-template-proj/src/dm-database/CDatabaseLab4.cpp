@@ -325,7 +325,7 @@ int CDatabaseLab4::EliminarAvion(const int idAv) {
 		if (m_p_con != NULL) {
 			std::string query("DELETE FROM AVION ");
 			std::ostringstream os;
-			os << "WHERE ID_AVION = " << idAv;
+			os << "WHERE ID_AVION = " << idAv << "";
 			query += os.str();
 			result = EjecutaQuery(query);
 			cout <<"He mandado la query"<<endl;
@@ -370,7 +370,7 @@ int CDatabaseLab4::UpdateLocalizacion(const int idLoc, string cadena) {
 int CDatabaseLab4::UpdateValorSensor(const int idLoc, const int val) {
 	bool result = false;
 	try {
-
+	
 		//This condition checks that there is a connection active
 		if (m_p_con != NULL) {
 			std::string query("UPDATE VALOR ");
@@ -436,6 +436,29 @@ int CDatabaseLab4::LeerSensorLocFINGER() {
 			os << "WHERE L.TIPO LIKE 'FINGER'";
 
 			query += os.str();
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+int CDatabaseLab4::AsignarRemolque( int idAv) {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE AVION");
+			std::ostringstream os;
+			os << " SET ID_REMOLQUE = (SELECT ID_REMOLQUE FROM REMOLQUE WHERE ID_LOC = 0)";
+			os << "WHERE ID_AVION = " << idAv;
 			result = EjecutaQuery(query);
 
 		}
