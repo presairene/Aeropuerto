@@ -371,7 +371,65 @@ int main(void) {
 				scanf("%d", &s_id_finger);
 				printf("Valor sensor finger: ");
 				scanf("%d", &s_valor_finger);
+				time(&now);
+				value_aux = CValue(s_valor_finger, now);
+
+				if ((helpers::CTimeUtils::seconds_from_epoch(execTime) - lastExecution) >= TIME_SCAN_CYCLE_S) {
+
+
+					//The content of this if should go in a execute function of the object which will contain the intelligence module
+					log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+					log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+					log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+					log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+					log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+
+					//DDBB connection
+					dbObject.Conectar(SCHEMA_NAME, HOST_NAME, USER_NAME, PASSWORD_USER);
+					log.println(boost::log::trivial::trace, "Hemos conectado con la DB para hacer inserts de info");
+
+					//Insert stuff in DB
+					dbObject.ComienzaTransaccion();
+
+					//Update con los valores introducidos
+					bool resultInsert = true;
+
+					if (s_id_finger == 3) {
+						resultInsert = resultInsert && dbObject.insertValor(value_aux, S5L1);
+					}
+					else if (s_id_finger == 6) {
+						resultInsert = resultInsert && dbObject.insertValor(value_aux, S6L2);
+					}
+					else if (s_id_finger == 9) {
+						resultInsert = resultInsert && dbObject.insertValor(value_aux, S7L3);
+					}
+
+					if (resultInsert) {
+						log.println(boost::log::trivial::trace, "Data insert OK");
+						dbObject.ConfirmarTransaccion();
+					}
+					else {
+						log.println(boost::log::trivial::trace, "Data insert ERROR");
+						dbObject.DeshacerTransaccion();
+					}
+
+					//2.1 Asignar remolque
+					
+
+
+
+					//2.2 Adjudicar ruta
+					//2.3 Liberalizar finger
+					//2.4 Ocupar pistar
+
+
+
 				break;
+
 			case 3:
 				printf("Numero id del remolque: ");
 				scanf("%d", &s_id_remolque);
@@ -418,7 +476,7 @@ int main(void) {
 				else if (s_valor_bateria > 75.0F) {
 					pre_aux = CPrediccion(100.0F, now);
 				}
-				cout << "I have been created value = " << pre_aux.getValor() << endl;
+				
 
 				if ((helpers::CTimeUtils::seconds_from_epoch(execTime) - lastExecution) >= TIME_SCAN_CYCLE_S) {
 

@@ -50,6 +50,8 @@ public:
 	int EnviarRemolquesCarga();
 	int LeerSensorLocFINGER();
 
+	
+
 	int CambiarEstadoAvion();
 
 	//Funciones del apartado BATERIA
