@@ -62,5 +62,11 @@ public:
 	int remolquecargado();
 
 
+	int UpdateEstadoAvion(string estado, int idAv);
+	int AsignarFinger(); 
+	int AsignarRemolque(int idAv);
+	int LeerRemolquePista();
+
+
 
 };

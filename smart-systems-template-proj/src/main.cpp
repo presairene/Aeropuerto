@@ -39,9 +39,6 @@ int main(void) {
 
 	CDatabaseLab4 dbObject;
 
-	int avion_en_pista;
-	int id_avion_pista;
-
 	int s_valor_pista;
 	int s_id_avion;
 	int s_valor_finger;
@@ -53,6 +50,14 @@ int main(void) {
 	
 	int remolque_sin_bateria;
 	int remolque_con_bateria;
+
+
+	int avion_en_pista;
+	int id_avion_pista;
+	int existe_avion;
+	int finger_asignado;
+	int remolque_asignado;
+	int ruta_asignada;
 
 	CValue value_aux = CValue();
 	CPrediccion pre_aux = CPrediccion();
@@ -275,7 +280,7 @@ int main(void) {
 		VectorRut3.push_back(&C4);
 		VectorRut3.push_back(&C7);
 		VectorRut3.push_back(&C8);
-		VectorRut3.push_back(&F6);
+		VectorRut3.push_back(&F9);
 		CRuta Rut3 = CRuta(3, VectorRut3, &RemDummy);
 
 		//Finger 1 a Pista
@@ -364,9 +369,167 @@ int main(void) {
 			case 1:
 				printf("Valor sensor pista: ");
 				scanf("%d", &s_valor_pista);
+				//Actualización sensor pista
+				time(&now);
+				value_aux = CValue(s_valor_pista, now);/*
+				list<CValue*> listValue4;
+				list<CValue*>::iterator ilistValue4;*/
+				listValue4.push_back(&value_aux);
+				ilistValue4 = listValue4.begin();
+				printf("Numero id del avion: ");
+				scanf("%d", &id_avion_pista);
+
+				if ((helpers::CTimeUtils::seconds_from_epoch(execTime) - lastExecution) >= TIME_SCAN_CYCLE_S) {
+					//The content of this if should go in a execute function of the object which will contain the intelligence module
+					log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+					log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+					log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+					log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+					log.println(boost::log::trivial::trace, "Starting intelligence execution cycle");
+
+
+					//DDBB connection
+					dbObject.Conectar(SCHEMA_NAME, HOST_NAME, USER_NAME, PASSWORD_USER);
+					log.println(boost::log::trivial::trace, "Hemos conectado con la DB para hacer inserts de info");
+
+					//Insert stuff in DB
+					dbObject.ComienzaTransaccion();
+					bool resultInsert = true;
+					resultInsert = resultInsert && dbObject.insertValor(value_aux, S4L0);
+					if (resultInsert) {
+						log.println(boost::log::trivial::trace, "Data insert OK");
+						dbObject.ConfirmarTransaccion();
+						cout << "Insertado el valor en la base de datos" << endl;
+					}
+					else {
+						log.println(boost::log::trivial::trace, "Data insert ERROR");
+						dbObject.DeshacerTransaccion();
+					}
+					existe_avion = dbObject.LeerIdAvion(id_avion_pista);
+					if (existe_avion) {
+						log.println(boost::log::trivial::trace, "Data insert OK");
+						dbObject.ConfirmarTransaccion();
+						cout << "Insertado el valor en la base de datos" << endl;
+					}
+					else {
+						log.println(boost::log::trivial::trace, "Data insert ERROR");
+						dbObject.DeshacerTransaccion();
+					}
+					if (existe_avion != -1) {
+						cout << "El avion, existia en la base de datos por lo que ha despegado" << endl;
+						resultInsert = resultInsert && dbObject.EliminarAvion(id_avion_pista);
+						resultInsert = resultInsert && dbObject.UpdateLocalizacion(0, "Libre");
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << " Borrado el avion en la base de datos" << endl;
+							cout << "\n Pista libre" << endl;
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+					}
+					else {
+						CAvion Avi = CAvion(id_avion_pista, "Aterrizado", &P0);
+
+						resultInsert = true;
+						resultInsert = resultInsert && dbObject.UpdateLocalizacion(0, "Ocupada");
+						resultInsert = resultInsert && dbObject.insertAvion(Avi);
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << "Avion insertado en la base de datos" << endl;
+							cout << "Cambio a pista ocupada" << endl;
+
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+
+						remolque_asignado = dbObject.LeerRemolquePista();
+						if (remolque_asignado) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << " Remolque: " << remolque_asignado << "recoge al avion en pista" << endl;
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+						resultInsert = true;
+						resultInsert = resultInsert && dbObject.AsignarRemolque(id_avion_pista);
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+						finger_asignado = dbObject.AsignarFinger();
+						if (finger_asignado) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << "Finger asignado num: " << finger_asignado << endl;
+
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+
+						if (finger_asignado == 3) {
+							ruta_asignada = 1;
+						}
+						else if (finger_asignado == 6) {
+							ruta_asignada = 2;
+						}
+						else {
+							ruta_asignada = 3;
+						}
+						resultInsert = true;
+						resultInsert= resultInsert && dbObject.UpdateRutaRemolque(remolque_asignado, ruta_asignada);
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+						resultInsert = true;
+						resultInsert = resultInsert && dbObject.UpdateLocalizacion(finger_asignado, "Ocupado");
+						resultInsert = resultInsert && dbObject.UpdateEstadoAvion("Aparcado", id_avion_pista);
+						resultInsert = resultInsert && dbObject.UpdateLocalizacion(0, "Libre");
+						if (resultInsert) {
+							log.println(boost::log::trivial::trace, "Data insert OK");
+							dbObject.ConfirmarTransaccion();
+							cout << "Finger: " << finger_asignado << " ocupado" << endl;
+							cout << "\n Estado avion aterrizado" << endl;
+							cout << "\nPista libre" << endl;
+
+						}
+						else {
+							log.println(boost::log::trivial::trace, "Data insert ERROR");
+							dbObject.DeshacerTransaccion();
+						}
+
+					}
+
+				}
+
 
 				break;
+
 			case 2:
+				/*
 				printf("Numero id del finger: ");
 				scanf("%d", &s_id_finger);
 				printf("Valor sensor finger: ");
@@ -419,14 +582,31 @@ int main(void) {
 
 					//2.1 Asignar remolque
 					
+					if (s_id_finger == 3) {
+						resultInsert = resultInsert && dbObject.asignarRemolqueF(value_aux, S5L1);
+					}
+					else if (s_id_finger == 6) {
+						resultInsert = resultInsert && dbObject.asignarRemolqueF(value_aux, S6L2);
+					}
+					else if (s_id_finger == 9) {
+						resultInsert = resultInsert && dbObject.asignarRemolqueF();
+					}
 
+					if (resultInsert) {
+						log.println(boost::log::trivial::trace, "Data insert OK");
+						dbObject.ConfirmarTransaccion();
+					}
+					else {
+						log.println(boost::log::trivial::trace, "Data insert ERROR");
+						dbObject.DeshacerTransaccion();
+					}
 
 
 					//2.2 Adjudicar ruta
 					//2.3 Liberalizar finger
 					//2.4 Ocupar pistar
 
-
+					*/
 
 				break;
 
@@ -618,7 +798,7 @@ int main(void) {
 					}
 				}
 
-
+				
 				break;
 			case 4:
 

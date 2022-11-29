@@ -675,3 +675,139 @@ int CDatabaseLab4::remolquecargado() {
 	}
 	return idRemolque;
 }
+/*
+int CDatabaseLab4::asignarRemolqueF(const int id_finger); () {
+	
+	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
+
+	try {
+
+		//This condition checks that there is a connectioSn active
+		if (m_p_con != NULL) {
+			std::string query("");
+			std::ostringstream os;
+			query += os.str();
+			p_stmt = m_p_con->createStatement();
+			res = p_stmt->executeQuery(query);
+			if (res->next()) {
+				idRemolque = res->getInt(1);
+			}
+			delete res;
+			delete p_stmt;
+			p_stmt = NULL;
+		}
+		else {
+			printf("ERROR m_p_con = NULL -> db is not connected ");
+		}
+	}
+	catch (sql::SQLException& e) {
+		if (res != NULL) delete res;
+		if (p_stmt != NULL) delete p_stmt;
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		return -1;
+	}
+	return idRemolque;
+}
+*/
+
+//------------- Cosas de irene ---------------------------------
+
+int CDatabaseLab4::LeerRemolquePista() {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("SELECT ID_REMOLQUE FROM REMOLQUE WHERE ID_LOC = 0");
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+
+}
+
+
+
+int CDatabaseLab4::AsignarRemolque(int idAv) {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE AVION");
+			std::ostringstream os;
+			os << " SET ID_REMOLQUE = (SELECT ID_REMOLQUE FROM REMOLQUE WHERE ID_LOC = 0)";
+			os << "WHERE ID_AVION = " << idAv;
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+
+int CDatabaseLab4::AsignarFinger() {
+	bool result = false;
+	try {
+
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("Select t.id_loc from (Select id_loc, estado from localizacion where tipo = 'Finger') as T  where estado = 'Libre' order by id_loc asc limit 1 ");
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		result = false;
+
+	}
+	return result;
+}
+
+
+
+int CDatabaseLab4::UpdateEstadoAvion(string estado, int idAv) {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE AVION SET ESTADO = '");
+			std::ostringstream os;
+			os << estado << "' ";
+			os << "WHERE ID_AVION " << idAv << "  ";
+
+			query += os.str();
+			result = EjecutaQuery(query);
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
