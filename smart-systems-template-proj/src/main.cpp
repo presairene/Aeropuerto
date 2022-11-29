@@ -340,7 +340,7 @@ int main(void) {
 			boost::posix_time::ptime execTime = boost::posix_time::second_clock::local_time();
 
 
-
+			printf("\n-----------------------------------------------------------------------------------------------------------------------------\n-----------------------------------------------------------------------------------------------------------------------------\n\t\t\tMenu de Opciones\n");
 			printf("Cambiar valor del sensor: \n");
 			printf("Opcion 1: cambiar valor del sensor de pista\n");
 			printf("Opcion 2: cambiar valor del sensor de finger\n");

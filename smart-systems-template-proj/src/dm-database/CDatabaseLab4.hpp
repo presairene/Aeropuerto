@@ -45,7 +45,7 @@ public:
 	int LeerIdAvion(const int idLoc);
 	int EliminarAvion(const int idAv);
 	int UpdateLocalizacion(const int idLoc, string cadena);//No funciona
-	int UpdateValorSensor(const int idLoc, const int val);
+	//int UpdateValorSensor(const int idLoc, const int val);
 
 	int EnviarRemolquesCarga();
 	int LeerSensorLocFINGER();

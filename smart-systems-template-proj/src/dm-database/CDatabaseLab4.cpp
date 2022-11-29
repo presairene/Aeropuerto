@@ -547,7 +547,7 @@ int CDatabaseLab4::UpdateRutaRemolque(const int idRem, const int idRuta) {
 			std::ostringstream os;
 			os << idRem << " where id_ruta = " << idRuta << "";
 			query += os.str();
-			cout << query;
+			//cout << query;
 			result = EjecutaQuery(query);
 
 		}
@@ -579,7 +579,7 @@ int CDatabaseLab4::UpdateEstadoRemolque(const int idRem, const int ocupadoLibre)
 
 				os << "WHERE ID_REMOLQUE = " << idRem << "";
 				query += os.str();
-				cout << query;
+				//cout << query;
 				result = EjecutaQuery(query);
 
 			}
@@ -594,7 +594,7 @@ int CDatabaseLab4::UpdateEstadoRemolque(const int idRem, const int ocupadoLibre)
 
 				os << "WHERE ID_REMOLQUE = " << idRem << "";
 				query += os.str();
-				cout << query;
+				//cout << query;
 				result = EjecutaQuery(query);
 
 			}
@@ -624,7 +624,7 @@ int CDatabaseLab4::UpdateLocRemolque(const int idRem, const int idLoc) {
 			os << idLoc;
 			os << " WHERE ID_REMOLQUE = " << idRem;
 			query += os.str();
-			cout << query;
+			//cout << query;
 			result = EjecutaQuery(query);
 
 		}
