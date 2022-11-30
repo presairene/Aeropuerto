@@ -42,16 +42,34 @@ public:
 	//OTHER
 	//Funciones del apartado PISTA
 	int LeerSensorLocPISTA();
-	int LeerIdAvion(const int idLoc);
+	int LeerIdAvion(const int idAvion);
 	int EliminarAvion(const int idAv);
-	int UpdateLocalizacion(const int idLoc, string cadena);
-	int UpdateValorSensor(const int idLoc, const int val);
-	int AsignarRemolque(int idAv);
+	int UpdateLocalizacion(const int idLoc, string cadena);//No funciona
+	//int UpdateValorSensor(const int idLoc, const int val);
 
 	int EnviarRemolquesCarga();
 	int LeerSensorLocFINGER();
 
-	int CambiarEstadoAvion(); 
 	
+
+	int CambiarEstadoAvion();
+
+	//Funciones del apartado BATERIA
+	int LeerSensorPredBateria();
+	int UpdateRutaRemolque(const int idRem, const int idRuta); // Funciona
+	int UpdateEstadoRemolque(const int idRem, const int ocupadoLibre); // Funciona Mandarle un 0 cambiar a libre y un uno cambiar a ocupado
+	int UpdateLocRemolque(const int idRem, const int idLoc);// FUNCIONA
+	int remolquecargado();
+
+
+	int UpdateEstadoAvion(string estado, int idAv);
+	int AsignarFinger(); 
+	int AsignarRemolque(int idAv);
+	int LeerRemolquePista();
+
+	int updateLocAvion(int avi,  int loc);
+	int asignarRemolqueF(const int id_finger);
+	int LeerRemolqueLocalizacion(const int idLoc);
+
 
 };

@@ -282,7 +282,7 @@ int CDatabaseLab4::LeerSensorLocPISTA() {
 	}
 	return loc;
 }
-int CDatabaseLab4::LeerIdAvion(const int idLoc) {
+int CDatabaseLab4::LeerIdAvion(const int idAvion) {
 	int id = -1;
 	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
 
@@ -292,7 +292,7 @@ int CDatabaseLab4::LeerIdAvion(const int idLoc) {
 		if (m_p_con != NULL) {
 			std::string query("SELECT ID_AVION FROM AVION ");
 			std::ostringstream os;
-			os << "WHERE ID_LOC = " << idLoc;
+			os << "WHERE ID_AVION = " << idAvion;
 			query += os.str();
 			p_stmt = m_p_con->createStatement();
 			res = p_stmt->executeQuery(query);
@@ -325,7 +325,7 @@ int CDatabaseLab4::EliminarAvion(const int idAv) {
 		if (m_p_con != NULL) {
 			std::string query("DELETE FROM AVION ");
 			std::ostringstream os;
-			os << "WHERE ID_AVION = " << idAv << "";
+			os << "WHERE ID_AVION = " << idAv;
 			query += os.str();
 			result = EjecutaQuery(query);
 			cout <<"He mandado la query"<<endl;
@@ -342,6 +342,7 @@ int CDatabaseLab4::EliminarAvion(const int idAv) {
 	}
 	return result;
 }
+//Update estado de la localizacion
 int CDatabaseLab4::UpdateLocalizacion(const int idLoc, string cadena) {
 	bool result = false;
 	try {
@@ -351,7 +352,7 @@ int CDatabaseLab4::UpdateLocalizacion(const int idLoc, string cadena) {
 			std::string query("UPDATE LOCALIZACION ");
 			std::ostringstream os;
 			os << "SET ESTADO = '" << cadena << "' ";
-			os << "WHERE ID_LOC = " << idLoc;
+			os << " WHERE ID_LOC = " << idLoc;
 			query += os.str();
 			result = EjecutaQuery(query);
 		}
@@ -367,31 +368,7 @@ int CDatabaseLab4::UpdateLocalizacion(const int idLoc, string cadena) {
 	}
 	return result;
 }
-int CDatabaseLab4::UpdateValorSensor(const int idLoc, const int val) {
-	bool result = false;
-	try {
-	
-		//This condition checks that there is a connection active
-		if (m_p_con != NULL) {
-			std::string query("UPDATE VALOR ");
-			std::ostringstream os;
-			os << "SET VALOR = "  << val;
-			os << "WHERE ID_SENSOR = (SELECT ID_SENSOR FROM SENSOR_LOCALIZACION WHERE ID_LOC = " << idLoc <<" ) ";
-			query += os.str();
-			result = EjecutaQuery(query);
-		}
-		else {
-		}
-	}
-	catch (sql::SQLException& e) {
-		std::ostringstream os;
-		os << "ERROR:" << e.what();
-		_log.println(boost::log::trivial::error, os.str());
-		result = false;
 
-	}
-	return result;
-}
 int CDatabaseLab4::EnviarRemolquesCarga(){
 	bool result = false;
 
@@ -449,31 +426,6 @@ int CDatabaseLab4::LeerSensorLocFINGER() {
 
 	return result;
 }
-int CDatabaseLab4::AsignarRemolque( int idAv) {
-	bool result = false;
-
-	try {
-		//This condition checks that there is a connection active
-		if (m_p_con != NULL) {
-			std::string query("UPDATE AVION");
-			std::ostringstream os;
-			os << " SET ID_REMOLQUE = (SELECT ID_REMOLQUE FROM REMOLQUE WHERE ID_LOC = 0)";
-			os << "WHERE ID_AVION = " << idAv;
-			result = EjecutaQuery(query);
-
-		}
-		else {
-		}
-	}
-	catch (sql::SQLException& e) {
-		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
-		result = false;
-	}
-
-	return result;
-}
-
-
 int CDatabaseLab4::CambiarEstadoAvion() {
 	bool result = false;
 
@@ -493,7 +445,6 @@ int CDatabaseLab4::CambiarEstadoAvion() {
 
 	return result;
 }
-
 int CDatabaseLab4::insertRuta( CRuta& Ru) {
 
 	bool result = false;
@@ -519,7 +470,6 @@ int CDatabaseLab4::insertRuta( CRuta& Ru) {
 
 	return result;
 }
-
 int CDatabaseLab4::insertLocalizacionRuta(const CRuta& Ru) {
 	int l;
 	int i;
@@ -550,4 +500,392 @@ int CDatabaseLab4::insertLocalizacionRuta(const CRuta& Ru) {
 	return result;
 }
 
+//Funciones del apartado BATERIAS
+//LeerSensorBateria()  funciona porque solo hay una pista, si se quieren leer varias pistas habría que modificarlo
+int CDatabaseLab4::LeerSensorPredBateria() {
+	int idRemolque = -1;
+	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
 
+	try {
+
+		//This condition checks that there is a connectioSn active
+		if (m_p_con != NULL) {
+			std::string query("Select T.id_remolque from (SELECT r.ID_REMOLQUE, p.valor_pred FROM prediccion as p, sensor_bateria as s, remolque as r WHERE p.ID_SENSOR = s.ID_SENSOR AND  r.ID_REMOLQUE = s.ID_REMOLQUE  AND r.ID_LOC = '0' ORDER BY P.FECHA_PRED DESC LIMIT 1) As T WHERE T.VALOR_PRED = '0'");
+			std::ostringstream os;
+			query += os.str();
+			p_stmt = m_p_con->createStatement();
+			res = p_stmt->executeQuery(query);
+			if (res->next()) {
+				idRemolque = res->getInt(1);
+			}
+			delete res;
+			delete p_stmt;
+			p_stmt = NULL;
+		}
+		else {
+			printf("ERROR m_p_con = NULL -> db is not connected ");
+		}
+	}
+	catch (sql::SQLException& e) {
+		if (res != NULL) delete res;
+		if (p_stmt != NULL) delete p_stmt;
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		return -1;
+	}
+	return idRemolque;
+}
+//Update la ruta que hace el remolque
+int CDatabaseLab4::UpdateRutaRemolque(const int idRem, const int idRuta) {
+	bool result = false;
+	try {
+
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("update ruta set id_remolque = ");
+			std::ostringstream os;
+			os << idRem << " where id_ruta = " << idRuta << "";
+			query += os.str();
+			//cout << query;
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		result = false;
+
+	}
+	return result;
+}
+
+//Update el estado del remolque
+int CDatabaseLab4::UpdateEstadoRemolque(const int idRem, const int ocupadoLibre) {
+	
+	bool result = false;
+	try {
+
+		if (ocupadoLibre == 1) {
+
+			//This condition checks that there is a connection active
+			if (m_p_con != NULL) {
+				std::string query("UPDATE remolque SET ESTADO = 'Ocupado' ");
+				std::ostringstream os;
+
+				os << "WHERE ID_REMOLQUE = " << idRem << "";
+				query += os.str();
+				//cout << query;
+				result = EjecutaQuery(query);
+
+			}
+			else {
+			}
+		}
+		else if (ocupadoLibre == 0) {
+			//This condition checks that there is a connection active
+			if (m_p_con != NULL) {
+				std::string query("UPDATE remolque SET ESTADO = 'Libre' ");
+				std::ostringstream os;
+
+				os << "WHERE ID_REMOLQUE = " << idRem << "";
+				query += os.str();
+				//cout << query;
+				result = EjecutaQuery(query);
+
+			}
+			else {
+			}
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		result = false;
+
+	}
+	return result;
+}
+//Update el localizacion del remolque
+int CDatabaseLab4::UpdateLocRemolque(const int idRem, const int idLoc) {
+	bool result = false;
+	try {
+
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE remolque SET ID_LOC = ");
+			std::ostringstream os;
+
+			os << idLoc;
+			os << " WHERE ID_REMOLQUE = " << idRem;
+			query += os.str();
+			//cout << query;
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		result = false;
+
+	}
+	return result;
+}
+
+int CDatabaseLab4::remolquecargado() {
+	int idRemolque = -1;
+	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
+
+	try {
+
+		//This condition checks that there is a connectioSn active
+		if (m_p_con != NULL) {
+			std::string query("Select T.id_remolque from (SELECT r.ID_REMOLQUE, p.valor_pred FROM prediccion as p, sensor_bateria as s, remolque as r WHERE p.ID_SENSOR = s.ID_SENSOR AND  r.ID_REMOLQUE = s.ID_REMOLQUE  AND r.ID_LOC = '11' ORDER BY P.FECHA_PRED DESC LIMIT 1) As T WHERE T.VALOR_PRED = 100");
+			std::ostringstream os;
+			query += os.str();
+			p_stmt = m_p_con->createStatement();
+			res = p_stmt->executeQuery(query);
+			if (res->next()) {
+				idRemolque = res->getInt(1);
+			}
+			delete res;
+			delete p_stmt;
+			p_stmt = NULL;
+		}
+		else {
+			printf("ERROR m_p_con = NULL -> db is not connected ");
+		}
+	}
+	catch (sql::SQLException& e) {
+		if (res != NULL) delete res;
+		if (p_stmt != NULL) delete p_stmt;
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		return -1;
+	}
+	return idRemolque;
+}
+int CDatabaseLab4::asignarRemolqueF(const int id_finger){
+	bool result = false;
+
+	try {
+
+		//This condition checks that there is a connectioSn active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE AVION SET ID_REMOLQUE = (SELECT ID_REMOLQUE FROM REMOLQUE");
+			std::ostringstream os;
+			os << " where id_loc = " << id_finger <<" )";
+			os << " where id_loc = " << id_finger;
+			query += os.str();
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		result = false;
+
+	}
+	return result;
+	
+}
+int CDatabaseLab4::LeerRemolqueLocalizacion(const int idLoc) {
+	int idRemolque = -1;
+	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
+
+	try {
+
+		//This condition checks that there is a connectioSn active
+		if (m_p_con != NULL) {
+			std::string query("SELECT ID_REMOLQUE FROM REMOLQUE WHERE ID_LOC = ");
+			std::ostringstream os;
+			os << idLoc << "";
+			query += os.str();
+			p_stmt = m_p_con->createStatement();
+			res = p_stmt->executeQuery(query);
+			if (res->next()) {
+				idRemolque = res->getInt(1);
+			}
+			delete res;
+			delete p_stmt;
+			p_stmt = NULL;
+		}
+		else {
+			printf("ERROR m_p_con = NULL -> db is not connected ");
+		}
+	}
+	catch (sql::SQLException& e) {
+		if (res != NULL) delete res;
+		if (p_stmt != NULL) delete p_stmt;
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		return -1;
+	}
+	return idRemolque;
+
+}
+
+
+//------------- Cosas de irene ---------------------------------
+
+int CDatabaseLab4::LeerRemolquePista() {
+	int idRemolque = -1; 
+	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
+
+	try {
+
+		//This condition checks that there is a connectioSn active
+		if (m_p_con != NULL) {
+			std::string query("SELECT ID_REMOLQUE FROM REMOLQUE WHERE ID_LOC = 0");
+			std::ostringstream os;
+			query += os.str();
+			p_stmt = m_p_con->createStatement();
+			res = p_stmt->executeQuery(query);
+			if (res->next()) {
+				idRemolque = res->getInt(1);
+			}
+			delete res;
+			delete p_stmt;
+			p_stmt = NULL;
+		}
+		else {
+			printf("ERROR m_p_con = NULL -> db is not connected ");
+		}
+	}
+	catch (sql::SQLException& e) {
+		if (res != NULL) delete res;
+		if (p_stmt != NULL) delete p_stmt;
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		return -1;
+	}
+	return idRemolque;
+
+}
+
+
+
+int CDatabaseLab4::AsignarRemolque(int idAv) {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE AVION SET ID_REMOLQUE = (SELECT ID_REMOLQUE FROM REMOLQUE WHERE ID_LOC = 0)");
+			std::ostringstream os;
+			os << " WHERE ID_AVION = " << idAv <<"";
+			query += os.str();
+			result = EjecutaQuery(query);
+
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+
+int CDatabaseLab4::AsignarFinger() {
+	int idFinger= -1;
+	sql::ResultSet* res = NULL; sql::Statement* p_stmt = NULL;
+	try {
+
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("Select t.id_loc from (Select id_loc, estado from localizacion where tipo = 'Finger') as T  where estado = 'Libre' order by id_loc asc limit 1 ");
+			p_stmt = m_p_con->createStatement();
+			res = p_stmt->executeQuery(query);
+			if (res->next()) {
+				idFinger = res->getInt(1);
+			}
+			delete res;
+			delete p_stmt;
+			p_stmt = NULL;
+		}
+		else {
+			printf("ERROR m_p_con = NULL -> db is not connected ");
+		}
+	}
+	catch (sql::SQLException& e) {
+		if (res != NULL) delete res;
+		if (p_stmt != NULL) delete p_stmt;
+		std::ostringstream os;
+		os << "ERROR:" << e.what();
+		_log.println(boost::log::trivial::error, os.str());
+		return -1;
+	}
+	return idFinger;
+
+}
+
+
+
+int CDatabaseLab4::UpdateEstadoAvion(string estado, int idAv) {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE AVION SET ESTADO = '");
+			std::ostringstream os;
+			os << estado << "' ";
+			os << "WHERE ID_AVION = " << idAv << "  ";
+
+			query += os.str();
+			result = EjecutaQuery(query);
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
+
+int CDatabaseLab4::updateLocAvion(int avi, int loc) {
+	bool result = false;
+
+	try {
+		//This condition checks that there is a connection active
+		if (m_p_con != NULL) {
+			std::string query("UPDATE AVION SET ID_LOC = '");
+			std::ostringstream os;
+			os << loc << "' ";
+			os << "WHERE ID_AVION = " << avi << "  ";
+
+			query += os.str();
+			result = EjecutaQuery(query);
+		}
+		else {
+		}
+	}
+	catch (sql::SQLException& e) {
+		std::ostringstream os; os << "ERROR:" << e.what(); _log.println(boost::log::trivial::error, os.str());
+		result = false;
+	}
+
+	return result;
+}
